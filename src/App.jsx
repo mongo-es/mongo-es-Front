@@ -5,8 +5,6 @@ import Sidebar from './components/Sidebar.jsx'
 import Home from '../src/components/Home/Home.jsx'
 import GuiEduPage from '../src/components/GuiPage/GuiEduPage.jsx'
 
-
-
 function App() {
 
   const [openGuiPageToggle, setOpenGuiPageToggle] = useState(true)
