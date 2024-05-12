@@ -1,24 +1,21 @@
-import { useState } from 'react'
 import './App.css'
-import Header from './components/Header.jsx'
-import Sidebar from './components/Sidebar.jsx'
-import Home from '../src/components/Home/Home.jsx'
-import GuiEduPage from '../src/components/GuiPage/GuiEduPage.jsx'
+import DefaultPage from './components/DefaultPage.jsx';
+import ConnectDBPage from '../src/components/ConnectDBPage.jsx';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link
+} from "react-router-dom";
 
 function App() {
 
-  const [openGuiPageToggle, setOpenGuiPageToggle] = useState(true)
-
-  const OpenGuiPage = () => {
-    setOpenGuiPageToggle(!openGuiPageToggle)
-  }
-
   return (
-    <div className='grid-container grid grid-cols-[260px,1fr,1fr,1fr] grid-rows-[0.2fr,3fr] h-screen'>
-      <Header OpenGuiPage={OpenGuiPage} openGuiPageToggle={openGuiPageToggle} />
-      <Sidebar />
-
-      {openGuiPageToggle ? <Home /> : <GuiEduPage />}
+    <div className='App'>
+      <Routes>
+        <Route path="/" element={<ConnectDBPage />} />
+        <Route path="/home" element={< DefaultPage />} />
+      </Routes>
 
     </div>
   )

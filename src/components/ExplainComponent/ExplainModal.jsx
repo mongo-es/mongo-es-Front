@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import ExplainOrigin from "../ExplainComponent/ExplainOrigin";
-import ExplainTranslate from "../ExplainComponent/ExplainTranslate";
+import ExplainOrigin from "../ExplainComponent/ExplainOrigin.jsx";
+import ExplainTranslate from "../ExplainComponent/ExplainTranslate.jsx";
 
 const ExplainModal = () => {
     const [modal, setModal] = useState(false);
@@ -8,12 +8,6 @@ const ExplainModal = () => {
     const toggleModal = () => {
         setModal(!modal);
     };
-
-    if (modal) {
-        document.body.classList.add('active-modal')
-    } else {
-        document.body.classList.remove('active-modal')
-    }
 
     return (
         <>
