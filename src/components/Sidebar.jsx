@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { Link } from 'react-router-dom'
 function Sidebar() {
     return (
         <div>
@@ -7,7 +7,9 @@ function Sidebar() {
                 <div className="h-full px-3 py-4 overflow-y-auto bg-gray-200 dark:bg-gray-800">
                     <ul className="space-y-2 font-medium">
                         <li className='pt-2'>
-                            <span className="pl-8 text-3xl">Mongo-es</span>
+                            <Link to='/'>
+                                <span className="pl-8 text-3xl">Mongo-es</span>
+                            </Link>
                         </li>
                         <br />
                         <li>

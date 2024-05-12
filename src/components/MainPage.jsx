@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import '../App.css'
-import Header from '../components/Header.jsx'
-import Sidebar from '../components/Sidebar.jsx'
-import Home from '../components/Home/Home.jsx'
-import GuiEduPage from '../components/GuiPage/GuiEduPage.jsx'
+import Header from './Header.jsx'
+import Sidebar from './Sidebar.jsx'
+import Home from './Home/Home.jsx'
+import GuiEduPage from './GuiPage/GuiEduPage.jsx'
 
 const DefaultPage = () => {
 

@@ -1,5 +1,5 @@
 import './App.css'
-import DefaultPage from './components/DefaultPage.jsx';
+import MainPage from './components/MainPage.jsx';
 import ConnectDBPage from '../src/components/ConnectDBPage.jsx';
 import {
   BrowserRouter as Router,
@@ -14,7 +14,7 @@ function App() {
     <div className='App'>
       <Routes>
         <Route path="/" element={<ConnectDBPage />} />
-        <Route path="/home" element={< DefaultPage />} />
+        <Route path="/home" element={< MainPage />} />
       </Routes>
 
     </div>
