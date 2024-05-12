@@ -26,8 +26,8 @@ const SaveButton = () => {
                                     CLOSE
                                 </button>
                             </div>
-                            <div className="flex pt-10 pl-16">
-                                <input type="text" className="border border-1 border-slate-950" />
+                            <div className="flex pt-10 pl-8">
+                                <input type="text" className="border border-1 border-slate-950 w-96" />
                                 <div className="pl-5">
                                     <button className="border border-1 border-green-400 rounded-md bg-green-400 px-5">
                                         save
