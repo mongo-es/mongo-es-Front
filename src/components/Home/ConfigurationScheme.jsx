@@ -7,32 +7,34 @@ const ConfigurationSchemeForm = ({ editorRef, language }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false);
 
-    const runCode = async () => {
-        // const sourceCode = editorRef.current.getValue();
-        // if (!sourceCode) return;
-        // try {
-        //     setIsLoading(true);
-        //     const { run: result } = await executeCode(language, sourceCode);
-        //     setOutput(result.output.split("\n"));
-        //     result.stderr ? setIsError(true) : setIsError(false);
-        //     console.log("test")
-        // } catch (error) {
-        //     console.log(error);
-        //     toast({
-        //         title: "An error occurred.",
-        //         description: error.message || "Unable to run code",
-        //         status: "error",
-        //         duration: 6000,
-        //     });
-        // } finally {
-        //     setIsLoading(false);
-        // }
-    };
+    // const runCode = async () => {
+    //     const sourceCode = editorRef.current.getValue();
+    //     if (!sourceCode) return;
+    //     try {
+    //         setIsLoading(true);
+    //         const { run: result } = await executeCode(language, sourceCode);
+    //         setOutput(result.output.split("\n"));
+    //         result.stderr ? setIsError(true) : setIsError(false);
+    //         console.log("test")
+    //     } catch (error) {
+    //         console.log(error);
+    //         toast({
+    //             title: "An error occurred.",
+    //             description: error.message || "Unable to run code",
+    //             status: "error",
+    //             duration: 6000,
+    //         });
+    //     } finally {
+    //         setIsLoading(false);
+    //     }
+    // };
+
+
 
     return (
         <div>
             <div className="pb-5">
-                <button className="border border-1 border-solid border-green-600 rounded-md h-10 w-[110px]">
+                <button className="border border-1 border-solid border-green-600 rounded-md h-10 w-[110px]" >
                     <div className="text-emerald-600">
                         Run Code
                     </div>

@@ -14,7 +14,7 @@ const SaveButton = () => {
                 Save
             </button>
 
-            {
+            {/* {
                 modal && (
                     <div className="modal z-20 fixed inset-0">
                         <div className="absolute border border-1 border-slate-950 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-8 rounded-lg h-[300px] w-[420px] z-10">
@@ -39,7 +39,7 @@ const SaveButton = () => {
                         </div>
                     </div>
                 )
-            }
+            } */}
         </div>
     );
 }
