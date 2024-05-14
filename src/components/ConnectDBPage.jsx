@@ -2,17 +2,20 @@ import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
+import useCollectionStore from "../store/collectionStore";
 
 const ConnectDBPage = () => {
     const navigate = useNavigate();
     const [value, setValue] = useState("");
     const [loading, setLoading] = useState(false);
+    const { setCollection, collection } = useCollectionStore();
 
     const connectCollection = async (e) => {
         e.preventDefault();
         setLoading(true);
         try {
-            const response = await fetch(`${value}`, {
+            // const response = await fetch(`${value}`, {
+            const response = await fetch('http://ec2-13-125-76-129.ap-northeast-2.compute.amazonaws.com:3000/api/v1/db/connect-mongo', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -20,8 +23,11 @@ const ConnectDBPage = () => {
                 body: JSON.stringify({
                     mongoUri: 'mongodb+srv://kkwjdfo:9k2wNUnStGjzpYIH@cluster0.wqyssre.mongodb.net/'
                 })
-            }).then(response => response.json())
-                .then(response => console.log(response.treeData));
+            })
+            const data = await response.json();
+
+            await setCollection(data.treeData);
+
             setLoading(false);
             navigate('/home');
         } catch (error) {

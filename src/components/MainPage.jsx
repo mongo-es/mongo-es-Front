@@ -7,6 +7,7 @@ import GuiEduPage from './GuiPage/GuiEduPage.jsx'
 
 const DefaultPage = () => {
 
+
     const [openGuiPageToggle, setOpenGuiPageToggle] = useState(true)
 
     const OpenGuiPage = () => {
