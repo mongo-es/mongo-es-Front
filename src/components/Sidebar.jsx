@@ -1,12 +1,14 @@
 import React from 'react'
 import { useState } from 'react';
 import { Link } from 'react-router-dom'
-import useCollectionStore from '../store/collectionStore.jsx'
+import useDatabaseStore from '../store/databaseStore.jsx'
+import useCollectionStore from '../store/collectionStore.jsx';
 import { SimpleTreeView } from '@mui/x-tree-view/SimpleTreeView';
 import { TreeItem } from '@mui/x-tree-view/TreeItem';
 
 const Sidebar = () => {
-    const { collection } = useCollectionStore();
+    const { database } = useDatabaseStore();
+    const { setCollection } = useCollectionStore();
 
     const [expandedItems, setExpandedItems] = useState([]);
 
@@ -30,8 +32,7 @@ const Sidebar = () => {
                         </li>
                         <br />
                         <SimpleTreeView>
-                            {/* collection 데이터를 반복하여 각 항목의 TreeItem을 생성 */}
-                            {collection.map(item => (
+                            {database.map(item => (
                                 <div key={item.itemId} className="flex items-center p-2 text-gray-900 rounded-lg">
                                     <TreeItem
                                         itemId={item.itemId}
@@ -43,7 +44,7 @@ const Sidebar = () => {
                                                 key={child.itemId}
                                                 itemId={child.itemId}
                                                 label={child.itemId}
-                                                onClick={() => console.log(child.itemId)}
+                                                onClick={() => setCollection(item.itemId, child.itemId)}
                                             />
                                         ))}
                                     </TreeItem>

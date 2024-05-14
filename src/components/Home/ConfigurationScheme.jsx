@@ -1,40 +1,45 @@
 import { useState } from "react";
-import { Box, Text, useToast } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
+import useCollectionStore from "../../store/collectionStore";
 
-const ConfigurationSchemeForm = ({ editorRef, language }) => {
-    const toast = useToast();
+const ConfigurationSchemeForm = () => {
+
     const [output, setOutput] = useState(null);
-    const [isLoading, setIsLoading] = useState(false);
-    const [isError, setIsError] = useState(false);
 
-    // const runCode = async () => {
-    //     const sourceCode = editorRef.current.getValue();
-    //     if (!sourceCode) return;
-    //     try {
-    //         setIsLoading(true);
-    //         const { run: result } = await executeCode(language, sourceCode);
-    //         setOutput(result.output.split("\n"));
-    //         result.stderr ? setIsError(true) : setIsError(false);
-    //         console.log("test")
-    //     } catch (error) {
-    //         console.log(error);
-    //         toast({
-    //             title: "An error occurred.",
-    //             description: error.message || "Unable to run code",
-    //             status: "error",
-    //             duration: 6000,
-    //         });
-    //     } finally {
-    //         setIsLoading(false);
-    //     }
-    // };
+    const { databaseName, collectionName } = useCollectionStore();
 
+    const runCode = async (e) => {
+        e.preventDefault();
+        console.log(databaseName, collectionName);
+        try {
+            // const response = await fetch(`${value}`, {
+            const response = await fetch('http://ec2-13-125-76-129.ap-northeast-2.compute.amazonaws.com:3000/api/v1/db/aggregate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    mongoUri: 'mongodb+srv://kkwjdfo:9k2wNUnStGjzpYIH@cluster0.wqyssre.mongodb.net/',
+                    databaseName: databaseName,
+                    collectionName: collectionName,
+                    pipeline: [],
+                })
+            }).then(response => response.json())
+                .then(response => console.log(response));
+            // const data = await response.json();
+            // console.log(data);
 
+        } catch (error) {
+            console.error('Error:', error);
+
+        }
+    };
 
     return (
         <div>
             <div className="pb-5">
-                <button className="border border-1 border-solid border-green-600 rounded-md h-10 w-[110px]" >
+                <button className="border border-1 border-solid border-green-600 rounded-md h-10 w-[110px]"
+                    onClick={(e) => { runCode(e) }}>
                     <div className="text-emerald-600">
                         Run Code
                     </div>
@@ -45,10 +50,8 @@ const ConfigurationSchemeForm = ({ editorRef, language }) => {
                 width="35vw"
                 height="60vh"
                 p={2}
-                color={isError ? "red.400" : ""}
                 border="1px solid"
                 borderRadius={4}
-                borderColor={isError ? "red.500" : "#333"}
             >
                 {output
                     ? output.map((line, i) => <Text key={i}>{line}</Text>)

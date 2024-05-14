@@ -4,17 +4,20 @@ import { persist } from "zustand/middleware";
 const useCollectionStore = create(
     persist(
         (set) => ({
-            collection: {},
-            setCollection: (data) => {
-                set({ collection: data });
+            databaseName: null,
+            collectionName: null,
+            setCollection: (databaseName, collectionName) => {
+                set({
+                    databaseName: databaseName,
+                    collectionName: collectionName,
+                });
             },
         }),
         {
-            name: "userCollection",
+            name: "userDatabase",
         }
     )
 
 );
-
 
 export default useCollectionStore;

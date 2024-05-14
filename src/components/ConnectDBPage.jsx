@@ -1,14 +1,13 @@
 import React from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
-import useCollectionStore from "../store/collectionStore";
+import useDatabaseStore from "../store/databaseStore";
 
 const ConnectDBPage = () => {
     const navigate = useNavigate();
     const [value, setValue] = useState("");
     const [loading, setLoading] = useState(false);
-    const { setCollection, collection } = useCollectionStore();
+    const { setDatabase } = useDatabaseStore();
 
     const connectCollection = async (e) => {
         e.preventDefault();
@@ -26,7 +25,7 @@ const ConnectDBPage = () => {
             })
             const data = await response.json();
 
-            await setCollection(data.treeData);
+            await setDatabase(data.treeData);
 
             setLoading(false);
             navigate('/home');
