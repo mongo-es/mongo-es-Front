@@ -1,6 +1,11 @@
 import React from "react";
+import { useState } from "react";
 
 const GuiEditorForm = () => {
+    const [isGuiButtonOpen, setIsGuiButtonOpen] = useState(false);
+    const guiButtonOpenToggle = () => {
+        setIsGuiButtonOpen(prev => !prev);
+    }
     return (
         <div className="flex">
             <div>
@@ -12,7 +17,37 @@ const GuiEditorForm = () => {
                     </button>
                 </div>
                 <div className="border border-1 border-solid border-slate-950 rounded-md w-[525px] h-96">
-                    GUI 버튼이 들어갈 자리입니다
+                    <button className="border border-1 border-slate-950" onClick={() => guiButtonOpenToggle()}>
+                        asdf
+                    </button>
+                    {
+                        isGuiButtonOpen && (
+                            <div className="">
+                                <ul className="border border-1 border-slate-950 w-20">
+                                    <li className="hover:bg-gray-400">
+                                        <a className="">
+                                            asdf
+                                        </a>
+                                    </li>
+                                    <li className="hover:bg-gray-400">
+                                        <a className="">
+                                            asdf
+                                        </a>
+                                    </li>
+                                    <li className="hover:bg-gray-400">
+                                        <a className="">
+                                            asdf
+                                        </a>
+                                    </li>
+                                    <li className="hover:bg-gray-400">
+                                        <a className="">
+                                            asdf
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        )
+                    }
                 </div>
             </div>
 

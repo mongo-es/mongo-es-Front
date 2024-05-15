@@ -34,7 +34,6 @@ const ConnectDBPage = () => {
         setLoading(true);
         try {
             const response = await fetch(`${inputValue}`, {
-                // const response = await fetch('http://ec2-13-125-76-129.ap-northeast-2.compute.amazonaws.com:3000/api/v1/db/connect-mongo', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -44,9 +43,7 @@ const ConnectDBPage = () => {
                 })
             })
             const data = await response.json();
-
             await setDatabase(data.treeData);
-
             setLoading(false);
             navigate('/home');
         } catch (error) {
@@ -65,7 +62,7 @@ const ConnectDBPage = () => {
     };
     const hasSavedUrl = Object.keys(savedData).length > 0;
 
-    const handleValueClick = (value) => {
+    const savedUrlClick = (value) => {
         setInputValue(value);
     };
 
@@ -88,7 +85,7 @@ const ConnectDBPage = () => {
 
             <div className="">
                 <button
-                    className="border border-1 border-slate-950"
+                    className="border border-1 border-slate-950 px-2"
                     onClick={recentlyUrlToggle}
                     disabled={!hasSavedUrl}
                 >
@@ -100,7 +97,7 @@ const ConnectDBPage = () => {
                     <ul className="border border-1 border-slate-950">
                         {Object.entries(savedData).map(([key, value]) => (
                             <li key={key} className="hover:bg-gray-400">
-                                <a onClick={() => { handleValueClick(value); recentlyUrlToggle() }}>
+                                <a onClick={() => { savedUrlClick(value); recentlyUrlToggle() }}>
                                     {value}
                                 </a>
                             </li>
