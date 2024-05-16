@@ -1,19 +1,18 @@
 import { useState } from "react";
 import { Box, Text } from "@chakra-ui/react";
 import useCollectionStore from "../../store/collectionStore";
+import useConnectedUrlStore from "../../store/connectUrlStore";
 
-const ConfigurationSchemeForm = () => {
+const ConfigurationSchemeForm = (value) => {
 
     const [output, setOutput] = useState(null);
-
     const { databaseName, collectionName } = useCollectionStore();
-
+    const { connectedUrl } = useConnectedUrlStore();
     const runCode = async (e) => {
         e.preventDefault();
-        console.log(databaseName, collectionName);
+        console.log(connectedUrl);
         try {
-            // const response = await fetch(`${value}`, {
-            const response = await fetch('http://ec2-13-125-76-129.ap-northeast-2.compute.amazonaws.com:3000/api/v1/db/aggregate', {
+            const response = await fetch(`${connectedUrl}/api/v1/db/aggregate`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -22,13 +21,16 @@ const ConfigurationSchemeForm = () => {
                     mongoUri: 'mongodb+srv://kkwjdfo:9k2wNUnStGjzpYIH@cluster0.wqyssre.mongodb.net/',
                     databaseName: databaseName,
                     collectionName: collectionName,
-                    pipeline: [],
+                    pipeline: [{ value }],
                 })
             }).then(response => response.json())
                 .then(response => console.log(response));
+
+            if (response === 404) {
+                alert("에러입니다~")
+            }
         } catch (error) {
             console.error('Error:', error);
-
         }
     };
 
@@ -36,7 +38,7 @@ const ConfigurationSchemeForm = () => {
         <div>
             <div className="pb-5">
                 <button className="border border-1 border-solid border-green-600 rounded-md h-10 w-[110px]"
-                    onClick={(e) => { runCode(e) }}>
+                    onClick={(e) => { runCode(e); }}>
                     <div className="text-emerald-600">
                         Run Code
                     </div>

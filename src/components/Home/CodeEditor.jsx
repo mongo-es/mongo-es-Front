@@ -38,7 +38,7 @@ const CodeEditorForm = () => {
                         theme="vs-white"
                         borderRadius={6}
                         language="json"
-                        defaultValue={default_VALUE["json"]}
+                        // defaultValue={default_VALUE["json"]}
                         onMount={onMount}
                         value={value}
                         onChange={(value) => setValue(value)}
@@ -46,7 +46,7 @@ const CodeEditorForm = () => {
                 </div>
             </div>
             <div className="pl-8">
-                <ConfigurationSchemeForm editorRef={editorRef} />
+                <ConfigurationSchemeForm value={value} />
             </div>
         </HStack>
 

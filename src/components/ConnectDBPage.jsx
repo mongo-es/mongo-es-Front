@@ -2,30 +2,34 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import useDatabaseStore from "../store/databaseStore";
+import useConnectedUrlStore from "../store/connectUrlStore";
 
 const ConnectDBPage = () => {
     const navigate = useNavigate();
+
     const [loading, setLoading] = useState(false);
-    const { setDatabase } = useDatabaseStore();
     const [recentlyUrlOpen, setRecentlyUrlOpen] = useState(false);
-    const [savedData, setSavedData] = useState({});
+    const [savedUrl, setSavedUrl] = useState({});
     const [inputValue, setInputValue] = useState('');
 
-    const loadDataFromLocalStorage = () => {
-        const savedData = {};
+    const { setDatabase } = useDatabaseStore();
+    const { setConnectedUrl } = useConnectedUrlStore();
+
+    const loadUrlFromLocalStorage = () => {
+        const savedUrl = {};
         for (let i = 0; i < localStorage.length; i++) {
             const key = localStorage.key(i);
             if (key.includes("mongo-es")) {
-                savedData[key] = JSON.parse(localStorage.getItem(key));
+                savedUrl[key] = JSON.parse(localStorage.getItem(key));
             }
         }
-        return savedData;
+        return savedUrl;
     };
 
     useEffect(() => {
-        const data = loadDataFromLocalStorage();
-        if (Object.keys(data).length > 0) {
-            setSavedData(data);
+        const Url = loadUrlFromLocalStorage();
+        if (Object.keys(Url).length > 0) {
+            setSavedUrl(Url);
         }
     }, []);
 
@@ -33,7 +37,7 @@ const ConnectDBPage = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            const response = await fetch(`${inputValue}`, {
+            const response = await fetch(`${inputValue}/api/v1/db/connect-mongo`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -42,8 +46,15 @@ const ConnectDBPage = () => {
                     mongoUri: 'mongodb+srv://kkwjdfo:9k2wNUnStGjzpYIH@cluster0.wqyssre.mongodb.net/'
                 })
             })
+            if (response === 404) {
+                alert("에러입니다~")
+            }
             const data = await response.json();
+
             await setDatabase(data.treeData);
+
+            await setConnectedUrl(inputValue);
+
             setLoading(false);
             navigate('/home');
         } catch (error) {
@@ -60,7 +71,8 @@ const ConnectDBPage = () => {
         const key = value + "-mongo-es"
         localStorage.setItem(key, JSON.stringify(value));
     };
-    const hasSavedUrl = Object.keys(savedData).length > 0;
+
+    const hasSavedUrl = Object.keys(savedUrl).length > 0;
 
     const savedUrlClick = (value) => {
         setInputValue(value);
@@ -95,9 +107,9 @@ const ConnectDBPage = () => {
             {recentlyUrlOpen && hasSavedUrl && (
                 <div className="">
                     <ul className="border border-1 border-slate-950">
-                        {Object.entries(savedData).map(([key, value]) => (
+                        {Object.entries(savedUrl).map(([key, value]) => (
                             <li key={key} className="hover:bg-gray-400">
-                                <a onClick={() => { savedUrlClick(value); recentlyUrlToggle() }}>
+                                <a href="#!" onClick={() => { savedUrlClick(value); recentlyUrlToggle() }}>
                                     {value}
                                 </a>
                             </li>
