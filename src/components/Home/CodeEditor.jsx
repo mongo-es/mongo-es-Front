@@ -9,12 +9,6 @@ const CodeEditorForm = () => {
     const editorRef = useRef();
     const [value, setValue] = useState("");
 
-    const onMount = (editor) => {
-        editorRef.current = editor;
-        editor.focus();
-    };
-
-
     return (
 
         <HStack spacing={8}>
@@ -29,19 +23,16 @@ const CodeEditorForm = () => {
                 <div className="border border-1 border-slate-950">
                     <Editor
                         options={{
-                            minimap: {
-                                enabled: false,
-                            },
+                            minimap: { enabled: false },
                         }}
+                        theme="vs-white"
                         width="34vw"
                         height="60vh"
-                        theme="vs-white"
                         borderRadius={6}
-                        language="json"
-                        // defaultValue={default_VALUE["json"]}
-                        onMount={onMount}
+                        language="bson"
+                        defaultValue={default_VALUE["bson"]}
                         value={value}
-                        onChange={(value) => setValue(value)}
+                        onChange={(value) => (setValue(value))}
                     />
                 </div>
             </div>

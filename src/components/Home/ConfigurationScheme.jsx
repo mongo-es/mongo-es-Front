@@ -3,31 +3,36 @@ import { Box, Text } from "@chakra-ui/react";
 import useCollectionStore from "../../store/collectionStore";
 import useConnectedUrlStore from "../../store/connectUrlStore";
 
-const ConfigurationSchemeForm = (value) => {
+const ConfigurationSchemeForm = (PipeLine) => {
 
     const [output, setOutput] = useState(null);
     const { databaseName, collectionName } = useCollectionStore();
     const { connectedUrl } = useConnectedUrlStore();
+    const PipeLineValue = PipeLine.value
+
+    console.log(PipeLineValue);
+    console.log(JSON.stringify(PipeLineValue))
+
     const runCode = async (e) => {
         e.preventDefault();
-        console.log(connectedUrl);
         try {
-            const response = await fetch(`${connectedUrl}/api/v1/db/aggregate`, {
+            const response = await fetch(`http://ec2-13-125-76-129.ap-northeast-2.compute.amazonaws.com:3000/api/v1/db/aggregate`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    mongoUri: 'mongodb+srv://kkwjdfo:9k2wNUnStGjzpYIH@cluster0.wqyssre.mongodb.net/',
+                    mongoUri: connectedUrl,
                     databaseName: databaseName,
                     collectionName: collectionName,
-                    pipeline: [{ value }],
+                    pipeline: PipeLineValue
+                    //pipeline: [{ $project: { _id: 1 } }]
                 })
             }).then(response => response.json())
-                .then(response => console.log(response));
+                .then(response => console.log(response))
 
             if (response === 404) {
-                alert("에러입니다~")
+                alert("에러")
             }
         } catch (error) {
             console.error('Error:', error);

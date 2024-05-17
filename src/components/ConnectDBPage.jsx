@@ -37,26 +37,25 @@ const ConnectDBPage = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            const response = await fetch(`${inputValue}/api/v1/db/connect-mongo`, {
+            const response = await fetch('http://ec2-13-125-76-129.ap-northeast-2.compute.amazonaws.com:3000/api/v1/db/connect-mongo', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    mongoUri: 'mongodb+srv://kkwjdfo:9k2wNUnStGjzpYIH@cluster0.wqyssre.mongodb.net/'
+                    mongoUri: `${inputValue}`
                 })
             })
             if (response === 404) {
                 alert("에러입니다~")
             }
             const data = await response.json();
-
             await setDatabase(data.treeData);
-
             await setConnectedUrl(inputValue);
 
             setLoading(false);
             navigate('/home');
+
         } catch (error) {
             console.error('Error:', error);
             setLoading(false);

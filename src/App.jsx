@@ -16,7 +16,6 @@ function App() {
         <Route path="/" element={<ConnectDBPage />} />
         <Route path="/home" element={< MainPage />} />
       </Routes>
-
     </div>
   )
 }
