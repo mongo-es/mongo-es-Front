@@ -2,5 +2,14 @@
 
 export const default_VALUE = {
 
-	bson: `[{ $project: { _id: 1 } }]`
+	bson: `[
+		{
+		  $match: {
+			transaction_count : {$gt: 30}
+		  }
+		},
+		{
+		  $limit: 10
+		}
+	  ]`
 };
