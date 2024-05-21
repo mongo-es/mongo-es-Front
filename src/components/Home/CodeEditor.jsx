@@ -1,4 +1,5 @@
-import { useRef, useState } from "react";
+import React from "react";
+import { useState } from "react";
 import { HStack } from "@chakra-ui/react";
 import { Editor } from "@monaco-editor/react";
 import { default_VALUE } from "../../constants.js"
@@ -6,9 +7,7 @@ import ConfigurationSchemeForm from "../Home/ConfigurationScheme.jsx";
 
 
 const CodeEditorForm = () => {
-    const editorRef = useRef();
     const [value, setValue] = useState("");
-
     return (
 
         <HStack spacing={8}>
@@ -32,7 +31,7 @@ const CodeEditorForm = () => {
                         language="bson"
                         defaultValue={default_VALUE["bson"]}
                         value={value}
-                        onChange={(value) => (setValue(value))}
+                        onChange={(value) => { setValue(value) }}
                     />
                 </div>
             </div>

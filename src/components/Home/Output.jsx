@@ -1,7 +1,7 @@
 import React from "react";
 import usePipelineStore from "../../store/pipelineResultStore";
 import { JSONTree } from 'react-json-tree';
-import { Map } from 'immutable';
+
 
 const OutputForm = () => {
     const { pipelineResult } = usePipelineStore();

@@ -1,61 +1,41 @@
 import React from "react";
+import useNaturalExplainStore from "../../store/naturalExplainStore.jsx";
+import { JSONTree } from 'react-json-tree';
 
 const ExplainOrigin = () => {
+    const { naturalExplain } = useNaturalExplainStore();
+
+
+    const theme = {
+        scheme: 'summerfruit',
+        author: 'christopher corley (http://cscorley.github.io/)',
+        base00: '#151515',
+        base01: '#202020',
+        base02: '#303030',
+        base03: '#505050',
+        base04: '#B0B0B0',
+        base05: '#D0D0D0',
+        base06: '#E0E0E0',
+        base07: '#FFFFFF',
+        base08: '#FF0086',
+        base09: '#FD8900',
+        base0A: '#ABA800',
+        base0B: '#00C918',
+        base0C: '#1faaaa',
+        base0D: '#3777E6',
+        base0E: '#AD00A1',
+        base0F: '#cc6633'
+    };
     return (
-        <div className="border border-solid border-gray-400 rounded-md w-[47%] max-h-[28vw] overflow-auto overflow-x-hidden">
-            Explain 원본이 들어갈 자리입니다
-            <br />
-            Explain 원본이 들어갈 자리입니다
-            <br />
-            Explain 원본이 들어갈 자리입니다
-            <br />
-            Explain 원본이 들어갈 자리입니다
-            <br />
-            Explain 원본이 들어갈 자리입니다
-            <br />
-
-            Explain 원본이 들어갈 자리입니다
-            <br />
-            Explain 원본이 들어갈 자리입니다
-            <br />
-            Explain 원본이 들어갈 자리입니다
-            <br />
-
-            Explain 원본이 들어갈 자리입니다
-            <br />
-            Explain 원본이 들어갈 자리입니다
-            <br />
-            Explain 원본이 들어갈 자리입니다
-            <br />
-
-            Explain 원본이 들어갈 자리입니다
-            <br />
-
-
-            Explain 원본이 들어갈 자리입니다
-            <br />
-            Explain 원본이 들어갈 자리입니다
-            <br />
-            Explain 원본이 들어갈 자리입니다
-            <br />
-            Explain 원본이 들어갈 자리입니다
-            <br />
-            Explain 원본이 들어갈 자리입니다
-            <br />
-            Explain 원본이 들어갈 자리입니다
-            <br />
-            Explain 원본이 들어갈 자리입니다
-            <br />
-            Explain 원본이 들어갈 자리입니다
-            <br />
-            Explain 원본이 들어갈 자리입니다
-            <br />
-            Explain 원본이 들어갈 자리입니다
-            <br />
-            Explain 원본이 들어갈 자리입니다
-            <br />
-            Explain 원본이 들어갈 자리입니다
-            <br />
+        <div className="border border-solid border-gray-400 rounded-md w-[47%] max-h-[28vw] overflow-auto">
+            <div className="text-[16px]">
+                <JSONTree data={naturalExplain}
+                    hideRoot='true'
+                    invertTheme={true}
+                    theme={{
+                        extend: theme,
+                    }} />
+            </div>
         </div>
     )
 }
