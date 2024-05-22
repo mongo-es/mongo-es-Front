@@ -71,13 +71,11 @@ const ConfigurationSchemeForm = (PipeLine) => {
     };
 
     const ConfigSchema = async (PipeLineValue) => {
-
+        // PipeLineValue = await eval(PipeLineValue)
         // console.log(PipeLineValue);
-        // console.log(JSON.stringify(PipeLineValue));
-        // console.log([PipeLineValue]);
-        // generateConfigSchema(PipeLineValue);
-        // generateConfigSchema(JSON.stringify(PipeLineValue));
-        //generateConfigSchema([PipeLineValue])
+
+        // const v = await generateConfigSchema(PipeLineValue);
+        // console.log(v);
 
     };
 
