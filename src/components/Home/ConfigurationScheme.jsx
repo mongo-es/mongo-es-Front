@@ -1,23 +1,28 @@
 import { useState } from "react";
 import { Box } from "@chakra-ui/react";
-import useCollectionStore from "../../store/collectionStore";
-import useConnectedUrlStore from "../../store/connectUrlStore";
-import usePipelineStore from "../../store/pipelineResultStore";
+import useCollectionStore from "../../store/collectionStore.jsx";
+import useConnectedUrlStore from "../../store/connectUrlStore.jsx";
+import usePipelineStore from "../../store/pipelineResultStore.jsx";
 import { generateConfigSchema } from "@coffee-tree/config-schema-generator";
 import useNaturalExplainStore from "../../store/naturalExplainStore.jsx";
+import { JSONTree } from "react-json-tree";
+import theme from "../../JSONtheme.js";
 
 const ConfigurationSchemeForm = (PipeLine) => {
+
+
 
     const { databaseName, collectionName } = useCollectionStore();
     const { connectedUrl } = useConnectedUrlStore();
     const { setPipelineResult } = usePipelineStore();
     const { setNaturalExplain } = useNaturalExplainStore();
 
+    const [configSchema, setConfigSchema] = useState();
+
     const PipeLineValue = PipeLine.value;
 
 
     const runPipeline = async (e) => {
-
         e.preventDefault();
         try {
             const response = await fetch(`http://ec2-13-125-76-129.ap-northeast-2.compute.amazonaws.com:3000/api/v1/db/aggregate`, {
@@ -44,7 +49,7 @@ const ConfigurationSchemeForm = (PipeLine) => {
     };
 
     const runExplain = async (e) => {
-
+        console.log("asdf")
         e.preventDefault();
         try {
             const response = await fetch(`http://ec2-13-125-76-129.ap-northeast-2.compute.amazonaws.com:3000/api/v1/db/explain`, {
@@ -70,20 +75,18 @@ const ConfigurationSchemeForm = (PipeLine) => {
         }
     };
 
+
     const ConfigSchema = async (PipeLineValue) => {
-        // PipeLineValue = await eval(PipeLineValue)
-        // console.log(PipeLineValue);
-
-        // const v = await generateConfigSchema(PipeLineValue);
-        // console.log(v);
-
+        PipeLineValue = await eval(PipeLineValue)
+        const v = await generateConfigSchema(PipeLineValue);
+        setConfigSchema(v);
     };
 
     return (
         <div>
             <div className="pb-5">
                 <button className="border border-1 border-solid border-green-600 rounded-md h-10 w-[110px]"
-                    onClick={(e) => { runPipeline(e); ConfigSchema(PipeLineValue); runExplain(e) }}>
+                    onClick={(e) => { runPipeline(e); runExplain(e); ConfigSchema(PipeLineValue); }}>
                     <div className="text-emerald-600">
                         Run Code
                     </div>
@@ -98,7 +101,16 @@ const ConfigurationSchemeForm = (PipeLine) => {
                 borderRadius={4}
             >
                 <div>
-                    구성 스키마 들어갈 자리
+                    {configSchema !== undefined ?
+                        (<JSONTree
+                            data={configSchema}
+                            hideRoot={true}
+                            invertTheme={true}
+                            theme={theme}
+                        />)
+                        :
+                        (null)
+                    }
                 </div>
             </Box>
         </div>

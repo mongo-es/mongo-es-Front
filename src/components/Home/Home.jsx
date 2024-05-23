@@ -5,6 +5,7 @@ import ExplainModal from '../ExplainComponent/ExplainModal.jsx';
 import SaveButton from '../Buttons/SaveButton.jsx';
 import HistoryButton from '../Buttons/HistoryButton.jsx';
 import OutputForm from '../Home/Output.jsx'
+import SchemaTypeForm from './SchemaType.jsx';
 
 const Home = () => {
 
@@ -17,6 +18,7 @@ const Home = () => {
                 </div>
                 <HistoryButton />
             </div>
+            <SchemaTypeForm />
             <CodeEditorForm />
             <OutputForm />
         </main >

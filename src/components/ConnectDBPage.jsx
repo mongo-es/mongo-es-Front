@@ -1,8 +1,8 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
-import useDatabaseStore from "../store/databaseStore";
-import useConnectedUrlStore from "../store/connectUrlStore";
+import useDatabaseStore from "../store/databaseStore.jsx";
+import useConnectedUrlStore from "../store/connectUrlStore.jsx";
 
 const ConnectDBPage = () => {
     const navigate = useNavigate();

@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@chakra-ui/react": "^2.8.2",
-    "@coffee-tree/config-schema-generator": "^1.0.0",
+    "@coffee-tree/config-schema-generator": "^1.0.1",
     "@elyra/pipeline-editor": "^1.12.1",
     "@emotion/is-prop-valid": "^1.2.2",
     "@emotion/react": "^11.11.4",

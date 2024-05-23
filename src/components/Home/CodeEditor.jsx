@@ -13,7 +13,7 @@ const CodeEditorForm = () => {
         <HStack spacing={8}>
             <div>
                 <div className="pb-5">
-                    <button className="border border-1 border-solid border-gray-100 rounded-md bg-gray-100 h-10 w-[110px]">
+                    <button className="border border-1 border-solid border-gray-100 rounded-md bg-gray-100 h-10 w-[110px] z-2">
                         <div className="text-black font-bold">
                             파이프라인
                         </div>
@@ -35,7 +35,7 @@ const CodeEditorForm = () => {
                     />
                 </div>
             </div>
-            <div className="pl-8">
+            <div className="pl-[2.5vw]">
                 <ConfigurationSchemeForm value={value} />
             </div>
         </HStack>

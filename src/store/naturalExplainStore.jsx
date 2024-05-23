@@ -4,7 +4,7 @@ import { persist } from "zustand/middleware";
 const useNaturalExplainStore = create(
     persist(
         (set) => ({
-            naturalExplain: {},
+            naturalExplain: null,
             setNaturalExplain: (naturalExplain) => {
                 set({ naturalExplain: naturalExplain });
             },
