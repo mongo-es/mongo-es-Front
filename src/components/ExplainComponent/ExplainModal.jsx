@@ -25,8 +25,8 @@ const ExplainModal = () => {
                         <br />
                         <div className="text-lg">
                             <div className="flex justify-between">
-                                <ExplainOrigin />
                                 <ExplainTranslate />
+                                <ExplainOrigin />
                             </div>
                         </div>
                         <button className="absolute top-10 right-10 bg-gray-200 border border-gray-400 rounded-md px-2 py-1" onClick={toggleModal}>

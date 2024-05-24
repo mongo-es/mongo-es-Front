@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import useDatabaseStore from "../store/databaseStore.jsx";
 import useConnectedUrlStore from "../store/connectUrlStore.jsx";
+import { FaTrashAlt } from "react-icons/fa";
+import { GoHistory } from "react-icons/go";
 
 const ConnectDBPage = () => {
     const navigate = useNavigate();
@@ -58,6 +60,11 @@ const ConnectDBPage = () => {
 
         } catch (error) {
             console.error('Error:', error);
+            alert('서버에 연결할 수 없습니다. \nURL 또는 서버를 확인하고 다시 시도하세요.');
+            setSavedUrl((prevUrls) => {
+                const updatedUrls = { ...prevUrls, [`${inputValue}-mongo-es`]: inputValue };
+                return updatedUrls;
+            });
             setLoading(false);
         }
     };
@@ -77,9 +84,18 @@ const ConnectDBPage = () => {
         setInputValue(value);
     };
 
+    const deleteUrl = (key) => {
+        localStorage.removeItem(key);
+        setSavedUrl(prevUrls => {
+            const updatedUrls = { ...prevUrls };
+            delete updatedUrls[key];
+            return updatedUrls;
+        });
+    };
+
 
     return (
-        <div className="absolute top-1/3 left-1/4 p-8 bg-white rounded-lg shadow-lg w-[700px]">
+        <div className="absolute top-[150px] left-1/4 p-8 bg-white border border-gray-100 rounded-lg shadow-xl w-[710px]">
             <div className="text-3xl font-bold mb-6 text-center">
                 mongo-escalator
             </div>
@@ -87,12 +103,13 @@ const ConnectDBPage = () => {
                 <input
                     placeholder="URL을 입력해주세요"
                     type="text"
-                    className="border border-gray-300 rounded-l-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-1 focus:ring-blue-500"
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                 />
+                <div className="pr-2"></div>
                 <button
-                    className={`border border-gray-300 rounded-r-md p-2 bg-blue-500 text-white ${loading ? 'cursor-not-allowed' : ''}`}
+                    className={`border border-gray-300 rounded-md p-2 bg-blue-500 text-white ${loading ? 'cursor-not-allowed' : ''}`}
                     onClick={(e) => { connectCollection(e); saveUrlLocal(inputValue); }}
                     disabled={loading}
                 >
@@ -101,21 +118,34 @@ const ConnectDBPage = () => {
             </div>
 
             <button
-                className="border border-gray-300 rounded-md p-2 bg-gray-100 hover:bg-gray-200 focus:outline-none"
+                className="border border-gray-300 rounded-md p-2 bg-gray-100 hover:bg-gray-200"
                 onClick={recentlyUrlToggle}
                 disabled={!hasSavedUrl}
             >
-                Recently URL
+                <div className="flex items-center">
+                    <span className="mr-2">Recently URL</span>
+                    <GoHistory />
+                </div>
             </button>
 
             {recentlyUrlOpen && hasSavedUrl && (
-                <div className="border border-gray-300 rounded-md bg-white shadow-md">
+                <div className="border border-gray-300 rounded-md bg-white shadow-md mt-1">
                     <ul>
                         {Object.entries(savedUrl).map(([key, value]) => (
-                            <li key={key} className="hover:bg-gray-200 rounded-md p-2">
-                                <div onClick={() => { savedUrlClick(value); recentlyUrlToggle(); }}>
-                                    {value}
+                            <li key={key} className="flex justify-between items-center rounded-md p-2">
+                                <div className="cursor-pointer" onClick={() => { savedUrlClick(value); recentlyUrlToggle(); }}>
+                                    <div className="p-2 hover:bg-gray-200 hover:rounded-md">
+                                        {value}
+                                    </div>
                                 </div>
+
+                                <button
+                                    onClick={() => deleteUrl(key)}
+                                >
+                                    <div className="p-3 hover:bg-gray-200 hover:rounded-md ">
+                                        <FaTrashAlt />
+                                    </div>
+                                </button>
                             </li>
                         ))}
                     </ul>
