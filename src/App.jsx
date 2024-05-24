@@ -1,11 +1,9 @@
 import './App.css'
-import MainPage from './components/MainPage.jsx';
+import MainPageForm from './components/MainPage.jsx';
 import ConnectDBPage from '../src/components/ConnectDBPage.jsx';
 import {
-  BrowserRouter as Router,
   Routes,
   Route,
-  Link
 } from "react-router-dom";
 
 function App() {
@@ -14,7 +12,7 @@ function App() {
     <div className='App'>
       <Routes>
         <Route path="/" element={<ConnectDBPage />} />
-        <Route path="/home" element={< MainPage />} />
+        <Route path="/home" element={< MainPageForm />} />
       </Routes>
     </div>
   )

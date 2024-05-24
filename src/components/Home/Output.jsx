@@ -8,7 +8,15 @@ const OutputForm = () => {
 
     return (
         <div className='pt-10 pb-20'>
-            <div className="border border-1 border-solid border-slate-950 rounded-md w-[72vw] h-72 overflow-x-auto pl-4">
+            <button className="border border-1 border-solid border-gray-100 rounded-md bg-gray-100 h-10 w-[110px] z-2">
+                <div className="text-black">
+                    Sample Data
+                </div>
+            </button>
+            <div className="pb-5">
+
+            </div>
+            <div className="border border-1 border-solid border-slate-950 rounded-md w-[72.5vw] h-72 overflow-x-auto pl-4">
                 <div className="flex space-x-4 pt-4">
                     {pipelineResult.length > 0 ? (
                         pipelineResult.map((item, index) => (

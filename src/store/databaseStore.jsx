@@ -4,7 +4,7 @@ import { persist } from "zustand/middleware";
 const useDatabaseStore = create(
     persist(
         (set) => ({
-            database: {},
+            database: null,
             setDatabase: (data) => {
                 set({ database: data });
             },

@@ -25,24 +25,24 @@ const GuiEditorForm = () => {
                             <div className="">
                                 <ul className="border border-1 border-slate-950 w-20">
                                     <li className="hover:bg-gray-400">
-                                        <a className="">
+                                        <div className="">
                                             asdf
-                                        </a>
+                                        </div>
                                     </li>
                                     <li className="hover:bg-gray-400">
-                                        <a className="">
+                                        <div className="">
                                             asdf
-                                        </a>
+                                        </div>
                                     </li>
                                     <li className="hover:bg-gray-400">
-                                        <a className="">
+                                        <div className="">
                                             asdf
-                                        </a>
+                                        </div>
                                     </li>
                                     <li className="hover:bg-gray-400">
-                                        <a className="">
+                                        <div className="">
                                             asdf
-                                        </a>
+                                        </div>
                                     </li>
                                 </ul>
                             </div>

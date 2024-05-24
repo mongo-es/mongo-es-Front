@@ -40,8 +40,8 @@ const ConfigurationSchemeForm = (PipeLine) => {
             }).then(response => response.json())
                 .then(response => setPipelineResult(response))
 
-            if (response === 404) {
-                alert("에러")
+            if (response === 404 || response === 500) {
+                alert("에러입니다")
             }
         } catch (error) {
             console.error('Error:', error);
@@ -85,10 +85,10 @@ const ConfigurationSchemeForm = (PipeLine) => {
     return (
         <div>
             <div className="pb-5">
-                <button className="border border-1 border-solid border-green-600 rounded-md h-10 w-[110px]"
+                <button className="border border-1 border-solid border-green-600 rounded-md h-10 w-[130px]"
                     onClick={(e) => { runPipeline(e); runExplain(e); ConfigSchema(PipeLineValue); }}>
                     <div className="text-emerald-600">
-                        Run Code
+                        Run PipeLine
                     </div>
                 </button>
             </div>

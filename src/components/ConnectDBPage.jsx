@@ -46,7 +46,7 @@ const ConnectDBPage = () => {
                     mongoUri: `${inputValue}`
                 })
             })
-            if (response === 404) {
+            if (response === 404 || response === 500) {
                 alert("에러입니다~")
             }
             const data = await response.json();
@@ -79,38 +79,43 @@ const ConnectDBPage = () => {
 
 
     return (
-        <div className="position: absolute top-[250px] left-[300px]">
-            <div className="text-lg">
-                mongo-es
+        <div className="absolute top-1/3 left-1/4 p-8 bg-white rounded-lg shadow-lg w-[700px]">
+            <div className="text-3xl font-bold mb-6 text-center">
+                mongo-escalator
             </div>
-            <div className="flex">
-                <input placeholder="url을 입력해주세요"
-                    type="text" className="border border-1 border-slate-950 w-96"
+            <div className="flex mb-4">
+                <input
+                    placeholder="URL을 입력해주세요"
+                    type="text"
+                    className="border border-gray-300 rounded-l-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
                     value={inputValue}
-                    onChange={(e) => setInputValue(e.target.value)} />
-
-                <button className="border border-1 rounded-md border-slate-950" onClick={(e) => { connectCollection(e); saveUrlLocal(inputValue) }} disabled={loading}>
+                    onChange={(e) => setInputValue(e.target.value)}
+                />
+                <button
+                    className={`border border-gray-300 rounded-r-md p-2 bg-blue-500 text-white ${loading ? 'cursor-not-allowed' : ''}`}
+                    onClick={(e) => { connectCollection(e); saveUrlLocal(inputValue); }}
+                    disabled={loading}
+                >
                     {loading ? 'Connecting...' : 'Connect'}
                 </button>
             </div>
 
-            <div className="">
-                <button
-                    className="border border-1 border-slate-950 px-2"
-                    onClick={recentlyUrlToggle}
-                    disabled={!hasSavedUrl}
-                >
-                    recently url
-                </button>
-            </div>
+            <button
+                className="border border-gray-300 rounded-md p-2 bg-gray-100 hover:bg-gray-200 focus:outline-none"
+                onClick={recentlyUrlToggle}
+                disabled={!hasSavedUrl}
+            >
+                Recently URL
+            </button>
+
             {recentlyUrlOpen && hasSavedUrl && (
-                <div className="">
-                    <ul className="border border-1 border-slate-950">
+                <div className="border border-gray-300 rounded-md bg-white shadow-md">
+                    <ul>
                         {Object.entries(savedUrl).map(([key, value]) => (
-                            <li key={key} className="hover:bg-gray-400">
-                                <a href="#!" onClick={() => { savedUrlClick(value); recentlyUrlToggle() }}>
+                            <li key={key} className="hover:bg-gray-200 rounded-md p-2">
+                                <div onClick={() => { savedUrlClick(value); recentlyUrlToggle(); }}>
                                     {value}
-                                </a>
+                                </div>
                             </li>
                         ))}
                     </ul>
