@@ -13,8 +13,8 @@ const ExplainModal = () => {
 
     return (
         <>
-            <button onClick={(e) => { toggleModal(); }} className="border border-solid border-zinc-950 rounded-md w-20">
-                explain
+            <button onClick={(e) => { toggleModal(); }} className="border border-1 border-solid border-gray-100 rounded-md bg-gray-100 h-10 w-[110px] z-2">
+                Explain
             </button>
 
             {modal && (

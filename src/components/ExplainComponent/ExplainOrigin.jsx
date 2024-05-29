@@ -13,10 +13,12 @@ const ExplainOrigin = () => {
                     (
                         <div className="pl-2 text-lg">run pipeline!</div>
                     ) : (
-                        <JSONTree data={naturalExplain}
-                            hideRoot={true}
-                            invertTheme={true}
-                            theme={theme} />
+                        <div className="pl-2">
+                            <JSONTree data={naturalExplain}
+                                hideRoot={true}
+                                invertTheme={true}
+                                theme={theme} />
+                        </div>
                     )
                 }
             </div>

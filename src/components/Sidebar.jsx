@@ -1,6 +1,5 @@
-import React from 'react'
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { SimpleTreeView } from '@mui/x-tree-view/SimpleTreeView';
 import { TreeItem } from '@mui/x-tree-view/TreeItem';
 import useDatabaseStore from '../store/databaseStore.jsx';
@@ -10,19 +9,21 @@ import usePipelineStore from "../store/pipelineResultStore.jsx";
 import useSchemaTypeStore from '../store/schemaTypeStore.jsx';
 
 const Sidebar = () => {
+    const { database, setDatabase } = useDatabaseStore();
     const { setCollection } = useCollectionStore();
     const { setPipelineResult } = usePipelineStore();
     const { setSchemaType } = useSchemaTypeStore();
-
-    const { database } = useDatabaseStore();
     const { databaseName, collectionName } = useCollectionStore();
     const { connectedUrl } = useConnectedUrlStore();
 
     const [collectionSet, setCollectionSet] = useState(false);
     const [event, setEvent] = useState(null);
-
-
     const [expandedItems, setExpandedItems] = useState([]);
+
+    useEffect(() => {
+        // Log to see if the state is initialized correctly
+        console.log("Loaded database from store:", database);
+    }, [database]);
 
     const handleItemExpand = (itemId) => {
         const isExpanded = expandedItems.includes(itemId);
@@ -52,10 +53,10 @@ const Sidebar = () => {
                 })
 
             }).then(response => response.json())
-                .then(response => setPipelineResult(response))
+                .then(response => setPipelineResult(response));
 
             if (response === 404) {
-                alert("에러")
+                alert("에러");
             }
         } catch (error) {
             console.error('Error:', error);
@@ -63,7 +64,6 @@ const Sidebar = () => {
     };
 
     const runSchemaType = async (e) => {
-
         e.preventDefault();
         try {
             const response = await fetch(`http://ec2-13-125-76-129.ap-northeast-2.compute.amazonaws.com:3000/api/v1/db/schema`, {
@@ -78,10 +78,10 @@ const Sidebar = () => {
                 })
 
             }).then(response => response.json())
-                .then(response => setSchemaType(response))
+                .then(response => setSchemaType(response));
 
             if (response === 404) {
-                alert("에러")
+                alert("에러");
             }
         } catch (error) {
             console.error('Error:', error);
@@ -118,30 +118,32 @@ const Sidebar = () => {
                         </li>
                         <br />
                         <SimpleTreeView>
-                            {database.length > 0 ? (database.map(item => (
-                                <div key={item.itemId} className="flex items-center p-2 text-gray-900 rounded-lg">
-                                    <TreeItem
-                                        itemId={item.itemId}
-                                        label={item.itemId}
-                                        onClick={() => { handleItemExpand(item.itemId) }}
-                                    >
-                                        {item.children && item.children.map(child => (
-                                            <TreeItem
-                                                key={child.itemId}
-                                                itemId={child.itemId}
-                                                label={child.itemId}
-                                                onClick={(e) => defaultClick(e, item.itemId, child.itemId)}
-                                            />
-                                        ))}
-                                    </TreeItem>
-                                </div>
-                            ))) : (null)}
+                            {database && database.length > 0 ? (
+                                database.map(item => (
+                                    <div key={item.itemId} className="flex items-center p-2 text-gray-900 rounded-lg">
+                                        <TreeItem
+                                            itemId={item.itemId}
+                                            label={item.itemId}
+                                            onClick={() => { handleItemExpand(item.itemId) }}
+                                        >
+                                            {item.children && item.children.map(child => (
+                                                <TreeItem
+                                                    key={child.itemId}
+                                                    itemId={child.itemId}
+                                                    label={child.itemId}
+                                                    onClick={(e) => defaultClick(e, item.itemId, child.itemId)}
+                                                />
+                                            ))}
+                                        </TreeItem>
+                                    </div>
+                                ))
+                            ) : null}
                         </SimpleTreeView>
                     </ul>
                 </div>
-            </aside >
-        </div >
-    )
-}
+            </aside>
+        </div>
+    );
+};
 
-export default Sidebar
+export default Sidebar;

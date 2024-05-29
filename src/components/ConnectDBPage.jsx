@@ -95,12 +95,13 @@ const ConnectDBPage = () => {
 
 
     return (
-        <div className="absolute top-[150px] left-1/4 p-8 bg-white border border-gray-100 rounded-lg shadow-xl w-[710px]">
+        <div className="absolute top-[150px] left-1/4 p-8 bg-white border border-gray-200 rounded-lg shadow-md w-[710px]">
             <div className="text-3xl font-bold mb-6 text-center">
                 mongo-escalator
             </div>
             <div className="flex mb-4">
                 <input
+                    spellcheck="false"
                     placeholder="URL을 입력해주세요"
                     type="text"
                     className="border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-1 focus:ring-blue-500"

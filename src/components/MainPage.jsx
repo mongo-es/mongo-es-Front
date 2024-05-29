@@ -80,8 +80,10 @@ const MainPageForm = () => {
     useEffect(() => {
         const hasSeenModal = localStorage.getItem('hasSeenModal');
         if (!hasSeenModal) {
-            setShowModal(true);
-            localStorage.setItem('hasSeenModal', 'true');
+            setTimeout(() => {
+                setShowModal(true);
+                localStorage.setItem('hasSeenModal', 'true');
+            }, 2000); // 1초 딜레이 추가
         }
     }, []);
 
@@ -98,19 +100,16 @@ const MainPageForm = () => {
             <h2 className="text-xl mb-4">좌측 사이드바에서 DB와 Collection을 선택해주세요</h2>
         </div>,
         <div className="flex flex-col items-center justify-center h-full">
-            <h2 className="text-xl mb-4">선택한 Collection의 스키마 타입을 확인하세요</h2>
+            <h2 className="text-xl mb-4">선택한 Collection의 스키마 정보를 확인하세요</h2>
         </div>,
         <div className="flex flex-col items-center justify-center h-full">
-            <h2 className="text-xl mb-4">나만의 파이프라인을 작성하고 실행 버튼을 눌러주세요</h2>
+            <h2 className="text-xl mb-4">파이프라인을 작성하고 실행 버튼을 눌러주세요</h2>
         </div>,
         <div className="flex flex-col items-center justify-center h-full">
-            <h2 className="text-xl mb-4">구성 스키마와 Aggregate 결과값을 확인하세요</h2>
+            <h2 className="text-xl mb-4">파이프라인 실행과정과 Aggregate 결과값을 확인하세요</h2>
         </div>,
         <div className="flex flex-col items-center justify-center h-full">
-            <h2 className="text-xl mb-4">Explain을 통해 최적화 발생을 확인하세요</h2>
-        </div>,
-        <div className="flex flex-col items-center justify-center h-full">
-            <h2 className="text-xl mb-4">감사합니다</h2>
+            <h2 className="text-xl mb-4">Explain을 통해 최적화 제안을 확인하세요</h2>
         </div>,
     ];
 

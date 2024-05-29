@@ -19,6 +19,7 @@ const CodeEditorForm = () => {
                         </div>
                     </button>
                 </div>
+
                 <div className="border border-1 border-slate-950">
                     <Editor
                         options={{

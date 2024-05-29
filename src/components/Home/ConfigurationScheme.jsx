@@ -3,24 +3,54 @@ import { Box } from "@chakra-ui/react";
 import useCollectionStore from "../../store/collectionStore.jsx";
 import useConnectedUrlStore from "../../store/connectUrlStore.jsx";
 import usePipelineStore from "../../store/pipelineResultStore.jsx";
-import { generateConfigSchema } from "@coffee-tree/config-schema-generator";
+import { generateConfigSchema, generateConfigSchemaByStep } from "@coffee-tree/config-schema-generator";
 import useNaturalExplainStore from "../../store/naturalExplainStore.jsx";
 import { JSONTree } from "react-json-tree";
 import theme from "../../JSONtheme.js";
 
+const Step = ({ step, operator, data }) => {
+    return (
+        <div className="mb-4 p-4 mr-2 mt-2 border border-gray-300 rounded-md shadow-md">
+            <h3 className="text-lg font-semibold mb-2">Step {step}: {operator}</h3>
+            <JSONTree
+                data={data}
+                hideRoot={true}
+                invertTheme={true}
+                theme={{
+                    extend: theme
+                }}
+            />
+        </div>
+    );
+};
+
+const ConfigSchemaSteps = ({ configSchemaStep }) => {
+    if (!configSchemaStep) {
+        return null;
+    }
+
+    return (
+        <div className="pl-2">
+            {Object.entries(configSchemaStep).map(([key, value], index) => {
+                const [operator, data] = Object.entries(value)[0];
+                return (
+                    <Step key={index} step={key} operator={operator} data={data} />
+                );
+            })}
+        </div>
+    );
+};
+
 const ConfigurationSchemeForm = (PipeLine) => {
-
-
-
     const { databaseName, collectionName } = useCollectionStore();
     const { connectedUrl } = useConnectedUrlStore();
     const { setPipelineResult } = usePipelineStore();
     const { setNaturalExplain } = useNaturalExplainStore();
 
     const [configSchema, setConfigSchema] = useState();
+    const [configSchemaStep, setConfigSchemaStep] = useState();
 
     const PipeLineValue = PipeLine.value;
-
 
     const runPipeline = async (e) => {
         e.preventDefault();
@@ -49,7 +79,6 @@ const ConfigurationSchemeForm = (PipeLine) => {
     };
 
     const runExplain = async (e) => {
-        console.log("asdf")
         e.preventDefault();
         try {
             const response = await fetch(`http://ec2-13-125-76-129.ap-northeast-2.compute.amazonaws.com:3000/api/v1/db/explain`, {
@@ -75,18 +104,24 @@ const ConfigurationSchemeForm = (PipeLine) => {
         }
     };
 
-
     const ConfigSchema = async (PipeLineValue) => {
-        PipeLineValue = await eval(PipeLineValue)
+        PipeLineValue = await eval(PipeLineValue);
         const v = await generateConfigSchema(PipeLineValue);
         setConfigSchema(v);
     };
+
+    const ConfigSchemaStep = async (PipeLineValue) => {
+        PipeLineValue = await eval(PipeLineValue);
+        const v = await generateConfigSchemaByStep(PipeLineValue);
+        setConfigSchemaStep(v);
+        console.log(v);
+    }
 
     return (
         <div>
             <div className="pb-5">
                 <button className="border border-1 border-solid border-green-600 rounded-md h-10 w-[130px]"
-                    onClick={(e) => { runPipeline(e); runExplain(e); ConfigSchema(PipeLineValue); }}>
+                    onClick={(e) => { runPipeline(e); runExplain(e); ConfigSchema(PipeLineValue); ConfigSchemaStep(PipeLineValue); }}>
                     <div className="text-emerald-600">
                         Run PipeLine
                     </div>
@@ -94,21 +129,17 @@ const ConfigurationSchemeForm = (PipeLine) => {
             </div>
 
             <Box
+                className="border border-1 border-gray-400 shadow-lg"
                 width="35vw"
                 height="60vh"
                 p={2}
-                border="1px solid"
                 borderRadius={4}
             >
                 <div>
-                    {configSchema !== undefined ?
-                        (<JSONTree
-                            data={configSchema}
-                            hideRoot={true}
-                            invertTheme={true}
-                            theme={theme}
-                        />)
-                        :
+                    {configSchemaStep !== undefined ?
+                        (
+                            <ConfigSchemaSteps configSchemaStep={configSchemaStep} />
+                        ) :
                         (null)
                     }
                 </div>
@@ -116,4 +147,5 @@ const ConfigurationSchemeForm = (PipeLine) => {
         </div>
     );
 };
+
 export default ConfigurationSchemeForm;

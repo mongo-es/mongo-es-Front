@@ -16,7 +16,7 @@ const OutputForm = () => {
             <div className="pb-5">
 
             </div>
-            <div className="border border-1 border-solid border-slate-950 rounded-md w-[72.5vw] h-72 overflow-x-auto pl-4">
+            <div className="border border-1 border-solid border-gray-400 shadow-lg rounded-md w-[72.5vw] h-72 overflow-x-auto pl-4">
                 <div className="flex space-x-4 pt-4">
                     {pipelineResult.length > 0 ? (
                         pipelineResult.map((item, index) => (

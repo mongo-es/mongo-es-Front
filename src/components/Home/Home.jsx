@@ -6,17 +6,23 @@ import SaveButton from '../Buttons/SaveButton.jsx';
 import HistoryButton from '../Buttons/HistoryButton.jsx';
 import OutputForm from '../Home/Output.jsx'
 import SchemaTypeForm from './SchemaType.jsx';
+import SelectedDCNameForm from './SelectedDCName.jsx';
 
 const Home = () => {
 
     return (
         < main className='Home-main-container pt-6 pl-9' >
-            <div className="grid grid-cols-[9.5fr,0.5fr,5fr] p-2 mb-10 mt-5">
-                <ExplainModal />
-                <div className='pr-4'>
+            <div className="mb-10 mt-5">
+                <div className='flex'>
+                    <SelectedDCNameForm />
+                    <div className='position: absolute left-[1300px]'>
+                        <ExplainModal />
+                    </div>
+                </div>
+                {/* <div className='pr-4'>
                     <SaveButton />
                 </div>
-                <HistoryButton />
+                <HistoryButton /> */}
             </div>
             <SchemaTypeForm />
             <CodeEditorForm />
