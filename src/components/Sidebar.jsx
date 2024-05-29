@@ -9,7 +9,7 @@ import usePipelineStore from "../store/pipelineResultStore.jsx";
 import useSchemaTypeStore from '../store/schemaTypeStore.jsx';
 
 const Sidebar = () => {
-    const { database, setDatabase } = useDatabaseStore();
+    const { database } = useDatabaseStore();
     const { setCollection } = useCollectionStore();
     const { setPipelineResult } = usePipelineStore();
     const { setSchemaType } = useSchemaTypeStore();
@@ -131,7 +131,7 @@ const Sidebar = () => {
                                                     key={child.itemId}
                                                     itemId={child.itemId}
                                                     label={child.itemId}
-                                                    onClick={(e) => defaultClick(e, item.itemId, child.itemId)}
+                                                    onClick={(e) => { defaultClick(e, item.itemId, child.itemId); console.log("클릭") }}
                                                 />
                                             ))}
                                         </TreeItem>

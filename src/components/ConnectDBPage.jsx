@@ -101,7 +101,7 @@ const ConnectDBPage = () => {
             </div>
             <div className="flex mb-4">
                 <input
-                    spellcheck="false"
+                    spellCheck="false"
                     placeholder="URL을 입력해주세요"
                     type="text"
                     className="border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-1 focus:ring-blue-500"
