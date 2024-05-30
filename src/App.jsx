@@ -7,6 +7,7 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import GuiEduPage from './components/GuiPage/GuiEduPage.jsx';
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
       <Routes>
         <Route path="/" element={<ConnectDBPage />} />
         <Route path="/home" element={< MainPage />} />
+        <Route path="/gui" element={< GuiEduPage/>} />
       </Routes>
     </div>
   )
