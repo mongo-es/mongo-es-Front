@@ -20,7 +20,7 @@ const SchemaTypeForm = () => {
             </button>
 
             {/* IndexCheckbox 컴포넌트를 조건부 렌더링하여 테이블 헤더 아래에 위치 */}
-            {showIndexCheckbox && <IndexCheckbox />}
+            {showIndexCheckbox && <IndexCheckbox handlePlusClick={handlePlusClick} />}
 
             <div className="border border-gray-200 rounded-md w-[72.1vw] h-[206.5px] overflow-auto shadow-md">
                 <Table.Root variant="surface" className="min-w-full">
@@ -32,14 +32,16 @@ const SchemaTypeForm = () => {
                             <Table.ColumnHeaderCell className="p-2 border border-gray-300 w-[18vw] text-center">
                                 Type
                             </Table.ColumnHeaderCell>
-                            <Table.ColumnHeaderCell className="p-2 border border-gray-300 w-[18vw] text-center flex justify-center items-center">
-                                Index
-                                <button
-                                    onClick={handlePlusClick}
-                                    className="ml-2"
-                                >
-                                    <GoPlusCircle />
-                                </button>
+                            <Table.ColumnHeaderCell className="p-2 border border-gray-300 w-[18vw] text-center">
+                                <div className="flex justify-center items-center">
+                                    Index
+                                    <button
+                                        onClick={handlePlusClick}
+                                        className="ml-1 pt-[3px]"
+                                    >
+                                        <GoPlusCircle />
+                                    </button>
+                                </div>
                             </Table.ColumnHeaderCell>
                             <Table.ColumnHeaderCell className="p-2 border border-gray-300 w-[18vw] text-center">
                                 Cardinality
@@ -62,6 +64,7 @@ const SchemaTypeForm = () => {
                                     {value.Index[0]?.hasIndex
                                         ? `${value.Index[0].indexName}`
                                         : "null"}
+                                    {/* {value.Index?.hasIndex ? value.Index.indexName : 'null'} */}
                                 </Table.Cell>
                                 <Table.Cell className="p-2 border border-gray-300 w-[18vw] text-center">
                                     {value.Cardinality}

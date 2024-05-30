@@ -25,8 +25,8 @@ const Home = () => {
                 <HistoryButton /> */}
             </div>
             <SchemaTypeForm />
-            <CodeEditorForm />
             <OutputForm />
+            <CodeEditorForm />
         </main >
     )
 }
