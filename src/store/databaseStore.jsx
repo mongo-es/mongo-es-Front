@@ -1,10 +1,10 @@
-import { create } from 'zustand'
+import { create } from 'zustand';
 import { persist } from "zustand/middleware";
 
 const useDatabaseStore = create(
     persist(
         (set) => ({
-            database: {},
+            database: [],
             setDatabase: (data) => {
                 set({ database: data });
             },
@@ -13,7 +13,6 @@ const useDatabaseStore = create(
             name: "userDatabase",
         }
     )
-
 );
 
 export default useDatabaseStore;

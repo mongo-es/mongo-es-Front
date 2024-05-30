@@ -17,7 +17,7 @@ const useCollectionStore = create(
             },
         }),
         {
-            name: "userDatabase",
+            name: "userDatabaseName",
         }
     )
 

@@ -150,27 +150,23 @@ const GuiEditorForm = () => {
                             <div className="">
                                 <ul className="border border-1 border-slate-950 w-20">
                                     <li className="hover:bg-gray-400">
-                                        <a 
-                                            href="#"
-                                            onClick={(e) => {
-                                                e.preventDefault(); // <a> 태그의 기본 동작 방지
-                                                // const text = e.target.textContent; // 클릭된 <a> 태그의 텍스트
-                                                addStringToQueryBuilder(e.target.textContent, ''); // 사용자가 원하는 키 값과 텍스트를 함수에 전달
-                                            }}
-                                        >
+                                        <a className="">
+                                            asdf
+                                        </div>
+                                    </li>
+                                    <li className="hover:bg-gray-400">
+                                        <a className="">
                                             asdf
                                         </a>
                                     </li>
                                     <li className="hover:bg-gray-400">
-                                        <a 
-                                            href="#"
-                                            onClick={(e) => {
-                                                e.preventDefault(); // <a> 태그의 기본 동작 방지
-                                                // const text = e.target.textContent; // 클릭된 <a> 태그의 텍스트
-                                                addStringToQueryBuilder(e.target.textContent, ''); // 사용자가 원하는 키 값과 텍스트를 함수에 전달
-                                            }}
-                                        >
-                                            1234
+                                        <a className="">
+                                            asdf
+                                        </a>
+                                    </li>
+                                    <li className="hover:bg-gray-400">
+                                        <a className="">
+                                            asdf
                                         </a>
                                     </li>
                                 </ul>
