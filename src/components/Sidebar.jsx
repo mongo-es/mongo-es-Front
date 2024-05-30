@@ -33,60 +33,7 @@ const Sidebar = () => {
         setExpandedItems(newExpandedItems);
     };
 
-    const runExamplePipeline = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await fetch(`http://ec2-13-125-76-129.ap-northeast-2.compute.amazonaws.com:3000/api/v1/db/aggregate`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    mongoUri: connectedUrl,
-                    databaseName: databaseName,
-                    collectionName: collectionName,
-                    pipeline: [
-                        {
-                            $limit: 10
-                        }
-                    ],
-                })
 
-            }).then(response => response.json())
-                .then(response => setPipelineResult(response));
-
-            if (response === 404) {
-                alert("에러");
-            }
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    };
-
-    const runSchemaType = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await fetch(`http://ec2-13-125-76-129.ap-northeast-2.compute.amazonaws.com:3000/api/v1/db/schema`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    mongoUri: connectedUrl,
-                    databaseName: databaseName,
-                    collectionName: collectionName,
-                })
-
-            }).then(response => response.json())
-                .then(response => setSchemaType(response));
-
-            if (response === 404) {
-                alert("에러");
-            }
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    };
 
     const waitSetCollection = async (dName, cName) => {
         await setCollection(dName, cName);
@@ -99,6 +46,60 @@ const Sidebar = () => {
     };
 
     useEffect(() => {
+        const runExamplePipeline = async (e) => {
+            e.preventDefault();
+            try {
+                const response = await fetch(`http://ec2-13-125-76-129.ap-northeast-2.compute.amazonaws.com:3000/api/v1/db/aggregate`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        mongoUri: connectedUrl,
+                        databaseName: databaseName,
+                        collectionName: collectionName,
+                        pipeline: [
+                            {
+                                $limit: 10
+                            }
+                        ],
+                    })
+
+                }).then(response => response.json())
+                    .then(response => setPipelineResult(response));
+
+                if (response === 404) {
+                    alert("에러");
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        };
+
+        const runSchemaType = async (e) => {
+            e.preventDefault();
+            try {
+                const response = await fetch(`http://ec2-13-125-76-129.ap-northeast-2.compute.amazonaws.com:3000/api/v1/db/schema`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        mongoUri: connectedUrl,
+                        databaseName: databaseName,
+                        collectionName: collectionName,
+                    })
+
+                }).then(response => response.json())
+                    .then(response => setSchemaType(response));
+
+                if (response === 404) {
+                    alert("에러");
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        };
         if (collectionSet && event) {
             runExamplePipeline(event);
             runSchemaType(event);
@@ -131,7 +132,7 @@ const Sidebar = () => {
                                                     key={child.itemId}
                                                     itemId={child.itemId}
                                                     label={child.itemId}
-                                                    onClick={(e) => { defaultClick(e, item.itemId, child.itemId); console.log("클릭") }}
+                                                    onClick={(e) => { defaultClick(e, item.itemId, child.itemId) }}
                                                 />
                                             ))}
                                         </TreeItem>

@@ -5,7 +5,7 @@ import useDatabaseStore from "../store/databaseStore.jsx";
 import useConnectedUrlStore from "../store/connectUrlStore.jsx";
 import { FaTrashAlt } from "react-icons/fa";
 import { GoHistory } from "react-icons/go";
-import { GoX } from "react-icons/go";
+// import { GoX } from "react-icons/go";
 
 const ConnectDBPage = () => {
     const navigate = useNavigate();
@@ -122,94 +122,71 @@ const ConnectDBPage = () => {
     };
 
     return (
-        <main className="flex flex-col items-center justify-center h-screen bg-gradient-to-br from-[#a3e635] to-[#65a30d] text-white font-SCoreDream">
-            <div className="space-y-8 text-center min-w-md w-full px-4">
+        <main className="flex flex-col items-center h-screen bg-gradient-to-br from-[#a3e635] to-[#65a30d] text-white font-SCoreDream">
+            <div className="space-y-8 text-center min-w-md w-full px-4 mt-36">
                 <h1 className="text-5xl font-black tracking-tight drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
                     Mongo Escalator
                 </h1>
                 <p className="text-xl font-normal drop-shadow-[0_1px_4px_rgba(0,0,0,1)]">
                     MongoDB Aggregation Pipeline 학습 서비스
                 </p>
-                <div className="flex flex-col gap-4 items-center justify-center">
+                <div className="relative flex flex-col items-center">
                     {inputError && (
-                        <div className="text-danger-400 font-bold text-left w-1/3">
+                        <div className="text-red-500 font-bold text-left w-1/3">
                             * 데이터베이스 주소를 입력해주세요.
                         </div>
                     )}
-                    <input
-                        spellCheck="false"
-                        placeholder="Enter MongoDB URI"
-                        type="text"
-                        className="bg-white text-gray-900 px-4 py-3 rounded-md focus:outline-none focus:ring-2 focus:ring-[#65a30d] focus:border-transparent w-1/3"
-                        value={inputValue}
-                        onChange={(e) => setInputValue(e.target.value)}
-                    />
-                    <div className="flex gap-4  justify-end w-1/3">
-                        <button
-                            className={`bg-white text-gray-900 hover:bg-gray-200 transition-colors px-8 py-3 rounded-md font-medium ${
-                                loading ? "cursor-not-allowed" : ""
-                            }`}
-                            onClick={(e) => {
-                                if (inputValue.trim() === "") {
-                                    setInputError(true);
-                                    return;
-                                }
-                                connectCollection(e);
-                                saveUrlLocal(inputValue);
-                            }}
-                            disabled={loading}
-                        >
-                            {loading ? "Connecting..." : "Connect"}
-                        </button>
-                        <button
-                            className="px-8 py-3 rounded-md font-medium text-black bg-white hover:bg-gray-200 transition-colors"
-                            onClick={recentlyUrlToggle}
-                            disabled={!hasSavedUrl}
-                        >
-                            <div className="flex items-center">
-                                <span className="mr-2">Connect Recent</span>
-                                <GoHistory style={{ color: "black" }} />
-                            </div>
-                        </button>
-                    </div>
-                </div>
-            </div>
+                    <div className="w-[633.5px] flex flex-col items-center">
+                        <div className="flex">
+                            <input
+                                spellCheck="false"
+                                placeholder="Enter MongoDB URI"
+                                type="text"
+                                className="bg-white text-gray-900 px-4 py-3 rounded-md focus:outline-none focus:ring-2 focus:ring-[#65a30d] focus:border-transparent w-[500px]"
+                                value={inputValue}
+                                onChange={(e) => setInputValue(e.target.value)}
+                            />
+                            <div className="pl-2">
 
-            {/* Error Dialog */}
-            {error && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                    <div className="bg-white text-black p-8 rounded-md shadow-md max-w-lg w-full text-center">
-                        <p>{error.message}</p>
-                        <p>
-                            <a
-                                href="https://cloud.mongodb.com/"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-blue-500 underline"
-                            >
-                                Mongo Atlas
-                            </a>{" "}
-                            Network Access에서 {error.publicIp}를 허용시켜
-                            주세요.
-                        </p>
-                        <div className="mt-4 flex justify-end">
+                            </div>
                             <button
-                                onClick={() => setError(null)}
-                                className="px-4 py-2 bg-blue-500 text-white rounded-md"
+                                className={`bg-white text-gray-900 hover:bg-gray-200 transition-colors py-3 rounded-md font-medium w-[125px] ${loading ? 'cursor-not-allowed' : ''
+                                    }`}
+                                onClick={(e) => {
+                                    if (inputValue.trim() === "") {
+                                        setInputError(true);
+                                        return;
+                                    }
+                                    connectCollection(e);
+                                    saveUrlLocal(inputValue);
+                                }}
+                                disabled={loading}
                             >
-                                Close
+                                {loading ? 'Connecting...' : 'Connect'}
+                            </button>
+                        </div>
+                        <div className="flex w-full mt-2">
+                            <button
+                                className="px-4 py-2 rounded-md font-medium text-black bg-white hover:bg-gray-200 transition-colors"
+                                onClick={recentlyUrlToggle}
+                                disabled={!hasSavedUrl}
+                            >
+                                <div className="flex items-center">
+                                    <span className="mr-2">Connect Recent</span>
+                                    <GoHistory style={{ color: "black" }} />
+                                </div>
                             </button>
                         </div>
                     </div>
                 </div>
-            )}
+            </div>
 
             {/* 최근 URL 목록 */}
             {recentlyUrlOpen && (
                 <div
-                    className={`border border-gray-300 rounded-md bg-white shadow-md mt-4 w-full max-w-md px-4 py-2 transition-height duration-300`}
+                    className={`border border-gray-300 rounded-md bg-white shadow-md mt-2 w-[634.5px] px-2 py-2 transition-height duration-300`}
                 >
-                    {hasSavedUrl && (
+                    {hasSavedUrl ? (
                         <ul className="space-y-2">
                             {Object.entries(savedUrl).map(([key, value]) => (
                                 <li
@@ -238,12 +215,40 @@ const ConnectDBPage = () => {
                                 </li>
                             ))}
                         </ul>
-                    )}
-                    {!hasSavedUrl && (
+                    ) : (
                         <p className="text-gray-500">
                             No recent URLs available.
                         </p>
                     )}
+                </div>
+            )}
+
+            {/* Error Dialog */}
+            {error && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                    <div className="bg-white text-black p-8 rounded-md shadow-md max-w-lg w-full text-center">
+                        <p>{error.message}</p>
+                        <p>
+                            <a
+                                href="https://cloud.mongodb.com/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-blue-500 underline"
+                            >
+                                Mongo Atlas
+                            </a>{" "}
+                            Network Access에서 {error.publicIp}를 허용시켜
+                            주세요.
+                        </p>
+                        <div className="mt-4 flex justify-end">
+                            <button
+                                onClick={() => setError(null)}
+                                className="px-4 py-2 bg-blue-500 text-white rounded-md"
+                            >
+                                Close
+                            </button>
+                        </div>
+                    </div>
                 </div>
             )}
         </main>

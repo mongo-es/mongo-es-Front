@@ -17,22 +17,22 @@ const GuiEditorForm = () => {
     }
     // 초기 queryConditions 객체
     const queryConditions = {
-        match:{
-            gt : "",
-            gte : ""
+        match: {
+            gt: "",
+            gte: ""
         },
-        project:{
-            project:"",
+        project: {
+            project: "",
         },
-            group:{
-            _id:"",
-            count:{ sum:"", test:"" },
+        group: {
+            _id: "",
+            count: { sum: "", test: "" },
         },
     };
-    
+
     const [queryBuilder, setQueryBuilder] = new useState("")
     useEffect(() => {
-        alert(JSON.stringify(queryBuilder, null, 2));
+        // alert(JSON.stringify(queryBuilder, null, 2));
     }, [queryBuilder]);
 
     const renderButtons = (data, parentKey = '') => {
@@ -71,23 +71,23 @@ const GuiEditorForm = () => {
             setQueryBuilder(`[\n\t{\n\t\t${str}:\n\t}\n]`);
             return;
         }
-    
+
         const beforeColon = queryBuilder.substring(0, lastIndex + 1);
         const colonCount = queryBuilder.split(":").length - 1;
         // const tab = "\t".repeat(colonCount + 1);
         const newStrPrefix = `{\n${"\t".repeat(colonCount + 2)}`;
         const newStrSuffix = `:\n${"\t".repeat(colonCount + 1)}}`;
         const afterColon = queryBuilder.substring(lastIndex + 1);
-    
+
         const newStr = beforeColon + newStrPrefix + str + newStrSuffix + afterColon;
-    
+
         // 로깅 부분은 필요에 따라 주석 처리하거나 제거할 수 있습니다.
         console.log("------BeforeColon-------\n" + beforeColon + "\n");
         console.log("------newStrPrefix-------\n" + newStrPrefix + "\n");
         console.log("------str-------\n" + str + "\n");
         console.log("------newStrSuffix-------\n" + newStrSuffix + "\n");
         console.log("------AfterColon-------\n" + afterColon + "\n");
-    
+
         setQueryBuilder("");
         setQueryBuilder(newStr);
     };
@@ -125,7 +125,7 @@ const GuiEditorForm = () => {
     //     setQueryBuilder("");
     //     setQueryBuilder(newStr);
     // };
-      
+
     return (
         <div className="flex">
             <div>
@@ -141,7 +141,7 @@ const GuiEditorForm = () => {
 
                     <button className="border border-1 border-slate-950" onClick={(e) => {
                         guiButtonOpenToggle();
-                        addStringToQueryBuilder(e.target.textContent,'');
+                        addStringToQueryBuilder(e.target.textContent, '');
                     }}>
                         asdf
                     </button>
@@ -150,24 +150,24 @@ const GuiEditorForm = () => {
                             <div className="">
                                 <ul className="border border-1 border-slate-950 w-20">
                                     <li className="hover:bg-gray-400">
-                                        <a className="">
+                                        <div className="">
                                             asdf
                                         </div>
                                     </li>
                                     <li className="hover:bg-gray-400">
-                                        <a className="">
+                                        <div className="">
                                             asdf
-                                        </a>
+                                        </div>
                                     </li>
                                     <li className="hover:bg-gray-400">
-                                        <a className="">
+                                        <div className="">
                                             asdf
-                                        </a>
+                                        </div>
                                     </li>
                                     <li className="hover:bg-gray-400">
-                                        <a className="">
+                                        <div className="">
                                             asdf
-                                        </a>
+                                        </div>
                                     </li>
                                 </ul>
                             </div>
@@ -198,3 +198,14 @@ const GuiEditorForm = () => {
     )
 }
 export default GuiEditorForm;
+
+// import React from "react";
+
+// const GuiEditorForm = () => {
+//     return (
+//         <div>
+//             asdf
+//         </div>
+//     )
+// }
+// export default GuiEditorForm;
