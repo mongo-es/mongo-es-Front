@@ -7,6 +7,8 @@ import useCollectionStore from '../store/collectionStore.jsx';
 import useConnectedUrlStore from '../store/connectUrlStore.jsx';
 import usePipelineStore from "../store/pipelineResultStore.jsx";
 import useSchemaTypeStore from '../store/schemaTypeStore.jsx';
+import useIsSchemaLoadingStore from '../store/isSchemaLoadingStore.jsx';
+
 
 const Sidebar = () => {
     const { database } = useDatabaseStore();
@@ -15,13 +17,13 @@ const Sidebar = () => {
     const { setSchemaType } = useSchemaTypeStore();
     const { databaseName, collectionName } = useCollectionStore();
     const { connectedUrl } = useConnectedUrlStore();
+    const { setIsSchemaLoading } = useIsSchemaLoadingStore();
 
     const [collectionSet, setCollectionSet] = useState(false);
     const [event, setEvent] = useState(null);
     const [expandedItems, setExpandedItems] = useState([]);
 
     useEffect(() => {
-        // Log to see if the state is initialized correctly
         console.log("Loaded database from store:", database);
     }, [database]);
 
@@ -34,16 +36,6 @@ const Sidebar = () => {
     };
 
 
-
-    const waitSetCollection = async (dName, cName) => {
-        await setCollection(dName, cName);
-        setCollectionSet(true);
-    };
-
-    const defaultClick = async (e, dName, cName) => {
-        setEvent(e);
-        await waitSetCollection(dName, cName);
-    };
 
     useEffect(() => {
         const runExamplePipeline = async (e) => {
@@ -96,6 +88,7 @@ const Sidebar = () => {
                 if (response === 404) {
                     alert("에러");
                 }
+                setIsSchemaLoading(false) // 데이터 로드 완료 후 로딩 상태를 false로 설정
             } catch (error) {
                 console.error('Error:', error);
             }
@@ -106,6 +99,16 @@ const Sidebar = () => {
             setCollectionSet(false);  // Reset the state
         }
     }, [collectionSet, event]);
+
+    const waitSetCollection = async (dName, cName) => {
+        await setCollection(dName, cName);
+        setCollectionSet(true);
+    };
+
+    const defaultClick = async (e, dName, cName) => {
+        setEvent(e);
+        await waitSetCollection(dName, cName);
+    };
 
     return (
         <div>
@@ -132,7 +135,7 @@ const Sidebar = () => {
                                                     key={child.itemId}
                                                     itemId={child.itemId}
                                                     label={child.itemId}
-                                                    onClick={(e) => { defaultClick(e, item.itemId, child.itemId) }}
+                                                    onClick={(e) => { defaultClick(e, item.itemId, child.itemId); setIsSchemaLoading(true) }}
                                                 />
                                             ))}
                                         </TreeItem>
