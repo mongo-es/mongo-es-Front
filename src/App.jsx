@@ -5,6 +5,7 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
+import GuiEduPage from './components/GuiPage/GuiEduPage.jsx';
 
 function App() {
 
@@ -12,7 +13,7 @@ function App() {
     <div className='App'>
       <Routes>
         <Route path="/" element={<ConnectDBPage />} />
-        <Route path="/home" element={< MainPageForm />} />
+        <Route path="/home" element={< MainPage />} />
       </Routes>
     </div>
   )
