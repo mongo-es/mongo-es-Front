@@ -23,9 +23,6 @@ const Sidebar = () => {
     const [event, setEvent] = useState(null);
     const [expandedItems, setExpandedItems] = useState([]);
 
-    useEffect(() => {
-        console.log("Loaded database from store:", database);
-    }, [database]);
 
     const handleItemExpand = (itemId) => {
         const isExpanded = expandedItems.includes(itemId);

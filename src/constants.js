@@ -9,6 +9,11 @@ export const default_VALUE = {
 			}
 	},
 	{
+		$project :{
+			"account_id" : 1
+		}
+	},
+	{
 		$limit: 10
 	}
 ]`
