@@ -2,19 +2,40 @@
 
 export const default_VALUE = {
 
-	bson: `[
-	{
-		$match: {
-				transaction_count : {$gt: 30}
-			}
-	},
-	{
-		$project :{
-			"account_id" : 1
-		}
-	},
-	{
-		$limit: 10
-	}
-]`
+	bson: ` [
+        {
+            $match: {
+                birthdate: { $gte: new Date("1990-01-01") }
+            }
+        },
+        {
+            $lookup: {
+                from: "accounts",
+                localField: "accounts",
+                foreignField: "account_id",
+                as: "account_details"
+            }
+        },
+        {
+            $unwind: "$account_details"
+        },{
+            $match: {
+                name : "Elizabeth Ray"
+            }
+        },
+        {
+            $match: {
+                "account_details.limit": { $gte: 1000 }
+            }
+        },
+        {
+            $project: {
+                _id: 0,
+                username: 1,
+                name: 1,
+                email: 1,
+                accountLimit: "$account_details.limit"
+            }
+        }
+    ]`
 };

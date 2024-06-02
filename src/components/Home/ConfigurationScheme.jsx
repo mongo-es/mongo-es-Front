@@ -3,8 +3,9 @@ import { Box } from "@chakra-ui/react";
 import useCollectionStore from "../../store/collectionStore.jsx";
 import useConnectedUrlStore from "../../store/connectUrlStore.jsx";
 import usePipelineStore from "../../store/pipelineResultStore.jsx";
-import { generateConfigSchema, generateConfigSchemaByStep } from "@coffee-tree/config-schema-generator";
 import useNaturalExplainStore from "../../store/naturalExplainStore.jsx";
+import useOptimizeStore from "../../store/optimizeStore.jsx";
+import { generateConfigSchema, generateConfigSchemaByStep } from "@coffee-tree/config-schema-generator";
 import { JSONTree } from "react-json-tree";
 import theme from "../../JSONtheme.js";
 
@@ -13,15 +14,16 @@ const ConfigurationSchemeForm = (PipeLine) => {
     const { connectedUrl } = useConnectedUrlStore();
     const { setPipelineResult } = usePipelineStore();
     const { setNaturalExplain } = useNaturalExplainStore();
+    const { setOptimizeResult } = useOptimizeStore();
 
     const [configSchema, setConfigSchema] = useState();
     const [configSchemaStep, setConfigSchemaStep] = useState();
     const [pipelineStep, setPipeLineStep] = useState(null);
+    const [optimize, setOptimize] = useState(null);
 
     const PipeLineValue = PipeLine.value;
 
     const waitSetStep = async (step) => {
-        console.log(step);
         setPipeLineStep(step);
     };
 
@@ -42,7 +44,7 @@ const ConfigurationSchemeForm = (PipeLine) => {
                         databaseName: databaseName,
                         collectionName: collectionName,
                         pipeline: PipeLineValue,
-                        step: step,
+                        step: pipelineStep,
                     })
                 }).then(response => response.json());
 
@@ -178,6 +180,35 @@ const ConfigurationSchemeForm = (PipeLine) => {
         }
     };
 
+    const runOptimize = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await fetch(`http://ec2-13-125-76-129.ap-northeast-2.compute.amazonaws.com:3000/api/v1/optimize`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    mongoUri: connectedUrl,
+                    databaseName: databaseName,
+                    collectionName: collectionName,
+                    pipeline: PipeLineValue,
+                })
+
+            }).then(response => response.json())
+                .then(response => setOptimize(response))
+            setOptimizeResult(optimize.indexOptimize, optimize.pipeOptimize)
+
+            if (response === 404) {
+                alert("에러")
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
+
+
     const ConfigSchema = async (PipeLineValue) => {
         PipeLineValue = await eval(PipeLineValue);
         const v = await generateConfigSchema(PipeLineValue);
@@ -194,7 +225,7 @@ const ConfigurationSchemeForm = (PipeLine) => {
         <div>
             <div className="pb-5">
                 <button className="border border-1 border-solid border-green-600 rounded-md h-10 w-[60px]"
-                    onClick={(e) => { runPipeline(e); runExplain(e); ConfigSchema(PipeLineValue); ConfigSchemaStep(PipeLineValue); }}>
+                    onClick={(e) => { runPipeline(e); runExplain(e); runOptimize(e); ConfigSchema(PipeLineValue); ConfigSchemaStep(PipeLineValue); }}>
                     <div className="text-emerald-600">
                         실행
                     </div>
