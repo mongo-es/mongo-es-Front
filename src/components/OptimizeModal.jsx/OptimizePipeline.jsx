@@ -9,14 +9,16 @@ const OptimizePipeline = () => {
 
     return (
         <div className="border border-solid border-gray-400 rounded-md w-[47%] max-h-[28vw] overflow-auto overflow-x-hidden pl-2">
+            <div className="text-[16px]">
 
-            <JSONTree
-                data={optimizePipeline}
-                hideRoot={true}
-                theme={{ extend: theme }}
-                invertTheme={true}
-                shouldExpandNodeInitially={() => true}
-            />
+                <JSONTree
+                    data={optimizePipeline}
+                    hideRoot={true}
+                    theme={{ extend: theme }}
+                    invertTheme={true}
+                    shouldExpandNodeInitially={() => true}
+                />
+            </div>
         </div>
     );
 }

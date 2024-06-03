@@ -195,12 +195,13 @@ const ConfigurationSchemeForm = (PipeLine) => {
                     pipeline: PipeLineValue,
                 })
 
-            }).then(response => response.json())
-                .then(response => setOptimize(response))
-            setOptimizeResult(optimize.indexOptimize, optimize.pipeOptimize)
+            });
+            const data = await response.json();
 
-            if (response === 404) {
-                alert("에러")
+            if (response.status === 404) {
+                alert("에러");
+            } else {
+                useOptimizeStore.getState().setOptimizeResult(data.indexOptimize, data.pipeOptimize);
             }
         } catch (error) {
             console.error('Error:', error);
