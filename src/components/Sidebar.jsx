@@ -114,7 +114,9 @@ const Sidebar = () => {
                     <ul className="space-y-2 font-medium">
                         <li className='pt-2'>
                             <Link to='/'>
-                                <span className="pl-8 text-3xl">Mongo-es</span>
+                                <div className='border border-1 border-gray-400 rounded-md shadow-md pb-2'>
+                                    <span className="pl-8 text-3xl">Mongo-es</span>
+                                </div>
                             </Link>
                         </li>
                         <br />
