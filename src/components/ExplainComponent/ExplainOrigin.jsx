@@ -11,7 +11,7 @@ const ExplainOrigin = () => {
             <div className="text-[16px]">
                 {naturalExplain === null ?
                     (
-                        <div className="pl-2 text-lg">run pipeline!</div>
+                        <div className="pl-2 text-lg">파이프라인을 실행 해 주세요 !</div>
                     ) : (
                         <div className="pl-2">
                             <JSONTree data={naturalExplain}
