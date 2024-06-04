@@ -51,7 +51,7 @@ const ConnectDBPage = () => {
 
         try {
             const response = await fetch(
-                "http://ec2-13-125-76-129.ap-northeast-2.compute.amazonaws.com:3000/api/v1/db/connect-mongo",
+                "https://mongo.pol.or.kr/api/v1/db/connect-mongo",
                 {
                     method: "POST",
                     headers: {

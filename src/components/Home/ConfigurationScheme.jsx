@@ -34,7 +34,7 @@ const ConfigurationSchemeForm = (PipeLine) => {
         const runAggregationPart = async (e) => {
             e.preventDefault();
             try {
-                const response = await fetch(`http://ec2-13-125-76-129.ap-northeast-2.compute.amazonaws.com:3000/api/v1/db/aggregate/part`, {
+                const response = await fetch(`https://mongo.pol.or.kr/api/v1/db/aggregate/part`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -130,7 +130,7 @@ const ConfigurationSchemeForm = (PipeLine) => {
     const runPipeline = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch(`http://ec2-13-125-76-129.ap-northeast-2.compute.amazonaws.com:3000/api/v1/db/aggregate`, {
+            const response = await fetch(`https://mongo.pol.or.kr/api/v1/db/aggregate`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -157,7 +157,7 @@ const ConfigurationSchemeForm = (PipeLine) => {
     const runExplain = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch(`http://ec2-13-125-76-129.ap-northeast-2.compute.amazonaws.com:3000/api/v1/db/explain`, {
+            const response = await fetch(`https://mongo.pol.or.kr/api/v1/db/explain`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -183,7 +183,7 @@ const ConfigurationSchemeForm = (PipeLine) => {
     const runOptimize = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch(`http://ec2-13-125-76-129.ap-northeast-2.compute.amazonaws.com:3000/api/v1/optimize`, {
+            const response = await fetch(`https://mongo.pol.or.kr/api/v1/optimize`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

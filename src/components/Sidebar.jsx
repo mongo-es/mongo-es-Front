@@ -38,7 +38,7 @@ const Sidebar = () => {
         const runExamplePipeline = async (e) => {
             e.preventDefault();
             try {
-                const response = await fetch(`http://ec2-13-125-76-129.ap-northeast-2.compute.amazonaws.com:3000/api/v1/db/aggregate`, {
+                const response = await fetch(`https://mongo.pol.or.kr/api/v1/db/aggregate`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -68,7 +68,7 @@ const Sidebar = () => {
         const runSchemaType = async (e) => {
             e.preventDefault();
             try {
-                const response = await fetch(`http://ec2-13-125-76-129.ap-northeast-2.compute.amazonaws.com:3000/api/v1/db/schema`, {
+                const response = await fetch(`https://mongo.pol.or.kr/api/v1/db/schema`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -114,7 +114,7 @@ const Sidebar = () => {
                     <ul className="space-y-2 font-medium">
                         <li className='pt-2'>
                             <Link to='/'>
-                                <div className='border border-1 border-gray-400 rounded-md shadow-md pb-2'>
+                                <div className='border border-1 border-gray-400 rounded-md shadow-md pb-2 pt-1'>
                                     <span className="pl-8 text-3xl">Mongo-es</span>
                                 </div>
                             </Link>

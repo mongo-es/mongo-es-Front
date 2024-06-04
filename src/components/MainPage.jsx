@@ -98,6 +98,7 @@ const MainPageForm = () => {
     const pages = [
         <div className="flex flex-col items-center justify-center h-full">
             <h2 className="text-xl mb-4">좌측 사이드바에서 DB와 Collection을 선택해주세요</h2>
+            <img src="img/test.png" alt="" />
         </div>,
         <div className="flex flex-col items-center justify-center h-full">
             <h2 className="text-xl mb-4">선택한 Collection의 스키마 정보를 확인하세요</h2>
