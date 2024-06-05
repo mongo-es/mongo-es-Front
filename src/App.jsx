@@ -5,6 +5,7 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
+import GuiEditorForm from './components/GuiPage/GuiEditor.jsx';
 
 function App() {
 
@@ -13,6 +14,7 @@ function App() {
       <Routes>
         <Route path="/" element={<ConnectDBPage />} />
         <Route path="/home" element={< MainPageForm />} />
+        <Route path="/gui" element={<GuiEditorForm/>}/>
       </Routes>
     </div>
   )

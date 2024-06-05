@@ -1,10 +1,12 @@
 import React from "react";
-import { useState, useEffect } from "react";
-
+import { useState, useRef } from "react";
+import { Editor } from "@monaco-editor/react";
+import { default_VALUE } from "../../constants.js";
 
 const GuiEditorForm = () => {
     const [isGuiButtonOpen, setIsGuiButtonOpen] = useState(false);
     const [openKeys, setOpenKeys] = useState({});
+
     const toggleOpen = (key) => {
         setOpenKeys((prev) => ({
             ...prev,
@@ -12,34 +14,90 @@ const GuiEditorForm = () => {
         }));
     };
 
+    const handleStringToArray = (addBlock) => {
+        const lastIndex = value.lastIndexOf(":");
+        if (lastIndex === -1) {
+            console.log("':' 문자가 문자열에 없습니다.");
+            setValue(`[\n\t{\n\t\t${addBlock}:\n\t}\n]`);
+            return;
+        }
+        let splitedText = value ? value.split('\n') : [];
+      
+        let lineNumber = line[0]; let column = line[1];
+        var lineContent = splitedText[lineNumber.lineNumber - 1]; // 해당 열의 데이터 받아옴.
+
+        let emptySpaceLength = lineContent.search(/\S/);
+        if (emptySpaceLength === -1) {emptySpaceLength = 1;}
+
+        const newStrPrefix = `{\n${"\t".repeat(emptySpaceLength + 1)}`;
+        const newStrSuffix = `:\n${"\t".repeat(emptySpaceLength)}}`;
+
+        const textToInsert = newStrPrefix + addBlock + newStrSuffix;
+        splitedText[lineNumber.lineNumber - 1] = [lineContent.slice(0, lineNumber.column - 1), textToInsert, lineContent.slice(lineNumber.column - 1)].join('');
+        
+        setValue(splitedText.join('\n'));
+      };
+      
     const guiButtonOpenToggle = () => {
         setIsGuiButtonOpen(prev => !prev);
     }
-    // 초기 queryConditions 객체
+
     const queryConditions = {
-        match: {
-            gt: "",
-            gte: ""
+        $match: {
+            $gt: "",
+            $gte: "",
+            $lte: "",
+            $lt: "",
+            $in: [],
+            $nin: [],
+            $eq: "",
+            $ne: "",
+            $regex: "",
+            $exists: true,
         },
-        project: {
+        $lookup: {
+            from: "",
+            localField: "",
+            foreignField: "",
+            as: "",
+        },
+        $unwind: {
+            path: "",
+            preserveNullAndEmptyArrays: true,
+        },
+        $project: {
             project: "",
+            include: [],
+            exclude: [],
         },
-        group: {
+        $group: {
             _id: "",
-            count: { sum: "", test: "" },
+            count: { $sum: "", $test: "" },
+            $avg: "",
+            $min: "",
+            $max: "",
         },
+        $sort: {
+            sortField: 1,
+        },
+        $skip: 10,
+        $limit: 20,
     };
 
-    const [queryBuilder, setQueryBuilder] = new useState("")
-    useEffect(() => {
-        // alert(JSON.stringify(queryBuilder, null, 2));
-    }, [queryBuilder]);
+    const [value, setValue] = new useState("")
+    const editorRef = useRef(null);
+    const [line, setLine] = useState([]);
 
+    function handleEditorDidMount(editor, monaco){
+        setLine([editor.getPosition()]);
+        editorRef.current = editor;
+    }
+ 
     const renderButtons = (data, parentKey = '') => {
         return Object.keys(data).map((key) => {
             const newKey = parentKey ? `${parentKey}.${key}` : key;
             const isExpandable = typeof data[key] === 'object' && data[key] !== null;
-
+ 
             return (
                 <div key={newKey} style={{ marginLeft: parentKey ? '20px' : '0' }}>
                     <button
@@ -49,8 +107,8 @@ const GuiEditorForm = () => {
                                 toggleOpen(newKey);
                             }
                             e.preventDefault(); // <a> 태그의 기본 동작 방지
-                            // 클릭된 버튼의 텍스트 내용을 addStringToQueryBuilder 함수에 전달
-                            addStringToQueryBuilder(e.target.textContent, '');
+                            // 클릭된 버튼의 텍스트 내용을 handleStringToArray 함수에 전달
+                            handleStringToArray(e.target.textContent);
                         }}
                     >
                         {isExpandable ? key : `${key}${data[key]}`}
@@ -64,68 +122,7 @@ const GuiEditorForm = () => {
             );
         });
     };
-    const addStringToQueryBuilder = (str) => {
-        const lastIndex = queryBuilder.lastIndexOf(":");
-        if (lastIndex === -1) {
-            console.log("':' 문자가 문자열에 없습니다.");
-            setQueryBuilder(`[\n\t{\n\t\t${str}:\n\t}\n]`);
-            return;
-        }
-
-        const beforeColon = queryBuilder.substring(0, lastIndex + 1);
-        const colonCount = queryBuilder.split(":").length - 1;
-        // const tab = "\t".repeat(colonCount + 1);
-        const newStrPrefix = `{\n${"\t".repeat(colonCount + 2)}`;
-        const newStrSuffix = `:\n${"\t".repeat(colonCount + 1)}}`;
-        const afterColon = queryBuilder.substring(lastIndex + 1);
-
-        const newStr = beforeColon + newStrPrefix + str + newStrSuffix + afterColon;
-
-        // 로깅 부분은 필요에 따라 주석 처리하거나 제거할 수 있습니다.
-        console.log("------BeforeColon-------\n" + beforeColon + "\n");
-        console.log("------newStrPrefix-------\n" + newStrPrefix + "\n");
-        console.log("------str-------\n" + str + "\n");
-        console.log("------newStrSuffix-------\n" + newStrSuffix + "\n");
-        console.log("------AfterColon-------\n" + afterColon + "\n");
-
-        setQueryBuilder("");
-        setQueryBuilder(newStr);
-    };
-
-    // const addStringToQueryBuilder = (str) => {
-    //     let newStrPrefix = "{\n";
-    //     let newStrSuffix ="";
-    //     let newStr = "";
-    //     // 맨 뒤에서부터 ":"의 위치 찾기
-    //     const lastIndex = queryBuilder.lastIndexOf(":");
-    //     // ":"을 구분자로 사용하여 문자열을 나누고, 그 결과 배열의 길이에서 1을 빼서 ":"의 개수를 구함
-    //     if (lastIndex !== -1) {
-    //         // ":"를 기준으로 ":"포함하여 앞에 있는 모든 문자열 추출
-    //         let beforeColon = queryBuilder.substring(0, lastIndex + 1);
-    //         //":"의 개수로 현재 존재하는 쿼리 레벨 확인
-    //         let colonCount = queryBuilder.split(":").length + 1;
-    //         for(let i = 0; i < colonCount ; i++){
-    //             newStrPrefix += "\t"; // 각 반복마다 탭 문자 추가
-    //         }
-    //         // ":"를 기준으로 뒤에 있는 모든 문자열 추출
-    //         newStrSuffix=":\n\t";
-    //         for(let i = 0; i < colonCount - 2; i++) newStrSuffix+= "\t";
-    //         newStrSuffix += "}";
-    //         const afterColon = queryBuilder.substring(lastIndex + 1);
-    //         newStr = beforeColon + newStrPrefix + str + newStrSuffix + afterColon;
-    //         console.log("------BeforeColon-------\n"+beforeColon+"\n");
-    //         console.log("------newStrPrefix-------\n"+newStrPrefix+"\n");
-    //         console.log("------str-------\n"+str+"\n");
-    //         console.log("------newStrSuffix-------\n"+newStrSuffix+"\n");
-    //         console.log("------AfterColon-------\n"+afterColon+"\n");
-    //     } else {
-    //         console.log("':' 문자가 문자열에 없습니다.");
-    //         newStr = "[\n\t{\n\t\t"+str+":\n\t}\n]"
-    //     }
-    //     setQueryBuilder("");
-    //     setQueryBuilder(newStr);
-    // };
-
+ 
     return (
         <div className="flex">
             <div>
@@ -138,10 +135,10 @@ const GuiEditorForm = () => {
                 </div>
                 <div className="border border-1 border-solid border-slate-950 rounded-md w-[525px] h-96">
                     {renderButtons(queryConditions)}
-
+ 
                     <button className="border border-1 border-slate-950" onClick={(e) => {
                         guiButtonOpenToggle();
-                        addStringToQueryBuilder(e.target.textContent, '');
+                        handleStringToArray(e.target.textContent);
                     }}>
                         asdf
                     </button>
@@ -175,9 +172,9 @@ const GuiEditorForm = () => {
                     }
                 </div>
             </div>
-
+ 
             <div className="pl-10"></div>
-
+ 
             <div>
                 <div className="pb-5">
                     <button className="border border-1 border-solid border-green-600 rounded-md h-10 w-[110px]">
@@ -186,21 +183,34 @@ const GuiEditorForm = () => {
                         </div>
                     </button>
                 </div>
-
+ 
                 <div className="border border-1 border-solid border-slate-950 rounded-md w-[525px] h-96">
                     {/* GUI버튼에 따른 파이프라인이 들어갈 자리입니다 */}
-                    {/* {JSON.stringify(queryBuilder, null, 2)} */}
-                    <pre>{queryBuilder}</pre>
-                    {/* <pre>{JSON.stringify(queryBuilder, null, 2)}</pre> */}
+                    <Editor
+                            options={{
+                                minimap: { enabled: false },
+                            }}
+                            theme="vs-white"
+                            width="34vw"
+                            height="60vh"
+                            borderRadius={6}
+                            language="bson"
+                            defaultValue={default_VALUE["bson"]}
+                            value={value}
+                            onChange={(value) => { setValue(value);
+                                setLine([editorRef.current.getPosition()]);
+                             }}
+                            onMount={handleEditorDidMount}
+                        />
                 </div>
             </div>
         </div>
     )
 }
 export default GuiEditorForm;
-
+ 
 // import React from "react";
-
+ 
 // const GuiEditorForm = () => {
 //     return (
 //         <div>
