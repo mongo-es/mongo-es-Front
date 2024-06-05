@@ -41,12 +41,12 @@ const SchemaTypeForm = () => {
                                 <Table.ColumnHeaderCell className="p-2 border border-gray-300 w-[18vw] text-center">
                                     <div className="flex justify-center items-center">
                                         Index
-                                        <button
+                                        {/* <button
                                             onClick={handlePlusClick}
                                             className="ml-1 pt-[3px]"
                                         >
                                             <GoPlusCircle />
-                                        </button>
+                                        </button> */}
                                     </div>
                                 </Table.ColumnHeaderCell>
                                 <Table.ColumnHeaderCell className="p-2 border border-gray-300 w-[18vw] text-center">

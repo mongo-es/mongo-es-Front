@@ -5,7 +5,6 @@ import useDatabaseStore from "../store/databaseStore.jsx";
 import useConnectedUrlStore from "../store/connectUrlStore.jsx";
 import { FaTrashAlt } from "react-icons/fa";
 import { GoHistory } from "react-icons/go";
-// import { GoX } from "react-icons/go";
 
 const ConnectDBPage = () => {
     const navigate = useNavigate();

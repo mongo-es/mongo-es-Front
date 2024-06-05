@@ -15,7 +15,7 @@ const Home = () => {
             <div className="mb-10 mt-5">
                 <div className='flex'>
                     <SelectedDCNameForm />
-                    <div className='position: absolute left-[1300px]'>
+                    <div className='position: absolute left-[1290px]'>
                         <ExplainModal />
                     </div>
                 </div>
