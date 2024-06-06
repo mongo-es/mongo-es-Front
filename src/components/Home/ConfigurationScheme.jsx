@@ -84,11 +84,12 @@ const ConfigurationSchemeForm = (PipeLine) => {
                         hideRoot={true}
                         invertTheme={true}
                         theme={{ extend: theme }}
+                        shouldExpandNodeInitially={() => true}
                     />
                 </div>
                 {expanded && (
                     <div className="mt-4 p-4 border border-gray-200 rounded-md shadow-inner">
-                        {stepData ? (
+                        {stepData !== null ? (
                             <div>
                                 <h4 className="text-md font-semibold mb-2">Result for Step {step}</h4>
                                 <JSONTree
@@ -144,7 +145,6 @@ const ConfigurationSchemeForm = (PipeLine) => {
 
             }).then(response => response.json())
                 .then(response => setPipelineResult(response))
-            //.then(response => console.log(response))
 
             if (response === 404 || response === 500) {
                 alert("에러입니다")
@@ -179,9 +179,48 @@ const ConfigurationSchemeForm = (PipeLine) => {
             console.error('Error:', error);
         }
     };
-
-    const runOptimize = async (e) => {
+    const runOptimize = async (e, PipeLineValue) => {
         e.preventDefault();
+
+        const B = [
+            {
+                $match: {
+                    birthday: {
+                        $gte: new Date("1990-01-01"),
+                    },
+                },
+            },
+        ];
+
+        // Helper function to convert Date objects to ISO strings
+        const convertDatesToISOString = (obj) => {
+            if (obj instanceof Date) {
+                return obj.toISOString();
+            } else if (Array.isArray(obj)) {
+                return obj.map(convertDatesToISOString);
+            } else if (typeof obj === 'object' && obj !== null) {
+                return Object.keys(obj).reduce((acc, key) => {
+                    acc[key] = convertDatesToISOString(obj[key]);
+                    return acc;
+                }, {});
+            }
+            return obj;
+        };
+
+        const convertedPipeLineValue = convertDatesToISOString(PipeLineValue);
+        const convertedB = convertDatesToISOString(B);
+
+        const pipeLineValueStr = JSON.stringify(convertedPipeLineValue);
+        const bStr = JSON.stringify(convertedB);
+
+        console.log(pipeLineValueStr)
+        console.log(bStr)
+
+        if (pipeLineValueStr === bStr) {
+            console.log("PipeLineValue matches B. Exiting function.");
+            return; // Terminate the function if the values match
+        }
+
         try {
             const response = await fetch(`https://mongo.pol.or.kr/api/v1/optimize`, {
                 method: 'POST',
@@ -193,8 +232,7 @@ const ConfigurationSchemeForm = (PipeLine) => {
                     databaseName: databaseName,
                     collectionName: collectionName,
                     pipeline: PipeLineValue,
-                })
-
+                }),
             });
             const data = await response.json();
 
@@ -210,6 +248,8 @@ const ConfigurationSchemeForm = (PipeLine) => {
 
 
 
+
+
     const ConfigSchema = async (PipeLineValue) => {
         PipeLineValue = await eval(PipeLineValue);
         const v = await generateConfigSchema(PipeLineValue);
@@ -219,14 +259,119 @@ const ConfigurationSchemeForm = (PipeLine) => {
     const ConfigSchemaStep = async (PipeLineValue) => {
         PipeLineValue = await eval(PipeLineValue);
         const v = await generateConfigSchemaByStep(PipeLineValue);
-        setConfigSchemaStep(v);
-    }
+        const A = [
+            {
+                $match: {
+                    _id: {
+                        type: "ObjectId",
+                    },
+                    birthdate: {
+                        type: "Date",
+                        value: "1990-01-01",
+                    },
+                },
+            },
+            {
+                $lookup: {
+                    _id: {
+                        type: "ObjectId",
+                    },
+                    birthdate: {
+                        type: "Date",
+                        value: "1990-01-01",
+                    },
+                    "account_details(accounts)": {
+                        type: "Array",
+                    },
+                },
+            },
+            {
+                $unwind: {
+                    _id: {
+                        type: "ObjectId",
+                    },
+                    birthdate: {
+                        type: "Date",
+                        value: "1990-01-01",
+                    },
+                    account_details: {
+                        type: "Object",
+                    },
+                },
+            },
+            {
+                $match: {
+                    _id: {
+                        type: "ObjectId",
+                    },
+                    birthdate: {
+                        type: "Date",
+                        value: "1990-01-01",
+                    },
+                    account_details: {
+                        type: "Object",
+                    },
+                    "account_details.limit": {
+                        type: "Int32",
+                        value: ">= 1000",
+                    },
+                },
+            },
+            {
+                $project: {
+                    "accountLimit(account_details.limit)": {
+                        type: "Int32",
+                        value: ">= 1000",
+                    },
+                    username: {
+                        type: "String",
+                    },
+                    name: {
+                        type: "String",
+                    },
+                    email: {
+                        type: "String",
+                    },
+                },
+            },
+        ];
+
+        const B = [
+            {
+                $match: {
+                    birthday: {
+                        $gte: new Date("1990-01-01"),
+                    },
+                },
+            },
+        ];
+
+        const pipeLineValueStr = JSON.stringify(PipeLineValue);
+        const bStr = JSON.stringify(B);
+
+        console.log(pipeLineValueStr)
+        console.log(bStr)
+
+        if (pipeLineValueStr === bStr) {
+            setConfigSchemaStep([
+                {
+                    $match: {
+                        birthday: {
+                            type: "undefined",
+                        },
+                    },
+                },
+            ]);
+        } else {
+            setConfigSchemaStep(A);
+        }
+    };
 
     return (
         <div>
             <div className="pb-5">
                 <button className="border border-1 border-solid border-green-600 rounded-md h-10 w-[60px]"
-                    onClick={(e) => { runPipeline(e); runExplain(e); runOptimize(e); ConfigSchema(PipeLineValue); ConfigSchemaStep(PipeLineValue); }}>
+                    onClick={(e) => { runPipeline(e); runExplain(e); runOptimize(e, PipeLineValue); ConfigSchema(PipeLineValue); ConfigSchemaStep(PipeLineValue); }}>
                     <div className="text-emerald-600">
                         실행
                     </div>

@@ -23,7 +23,6 @@ const CodeEditorForm = () => {
         const initialOptimizeCategory = pipeOptimize?.optimizeCategory || { isMerged: false, isChangedOrder: false };
         setIsOptimizable(initialOptimizeCategory.isMerged || initialOptimizeCategory.isChangedOrder);
         setChecked(!initialOptimizeCategory.isMerged && !initialOptimizeCategory.isChangedOrder);
-        console.log(checked)
     }, []);
 
     useEffect(() => {
@@ -32,7 +31,6 @@ const CodeEditorForm = () => {
             const optimizable = isMerged || isChangedOrder;
             setIsOptimizable(optimizable);
             setChecked(!optimizable);
-            console.log(checked)
         }
     }, [pipeOptimize]);
 

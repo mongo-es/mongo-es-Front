@@ -114,10 +114,10 @@ const MainPageForm = () => {
             </h2>
             <img src="img/3.png" alt="" className="w-[720px] h-90" />
         </div>,
-        <div className="flex flex-col items-center justify-center h-full">
-            <h2 className="text-xl mb-4">explain을 확인하실 수 있습니다</h2>
-            <img src="img/1.png" alt="" className="w-64 h-64" />
-        </div>,
+        // <div className="flex flex-col items-center justify-center h-full">
+        //     <h2 className="text-xl mb-4">explain을 확인하실 수 있습니다</h2>
+        //     <img src="img/1.png" alt="" className="w-64 h-64" />
+        // </div>,
         <div className="flex flex-col items-center justify-center h-full">
             <h2 className="text-xl mb-4">최적화 제안을 통해 더 효율적인 파이프라인을 확인하세요</h2>
             <img src="img/5.png" alt="" className="w-[700px] h-90" />
