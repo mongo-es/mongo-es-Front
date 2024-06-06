@@ -127,9 +127,10 @@ const MainPageForm = () => {
     return (
         <div className='grid-container grid grid-cols-[260px,1fr,1fr,1fr] grid-rows-[0.2fr,3fr] h-screen relative'>
             {showModal && <Modal pages={pages} onClose={closeModal} />}
-            <Header OpenGuiPage={OpenGuiPage} openGuiPageToggle={openGuiPageToggle} setShowModal={setShowModal} />
+            <Header /*OpenGuiPage={OpenGuiPage} openGuiPageToggle={openGuiPageToggle}*/ setShowModal={setShowModal} />
             <Sidebar />
-            {openGuiPageToggle ? <Home /> : <GuiEduPage />}
+            {/* {openGuiPageToggle ? <Home /> : <GuiEduPage />} */}
+            <Home />
         </div>
     );
 };

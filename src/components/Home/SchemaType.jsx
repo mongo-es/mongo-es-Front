@@ -23,7 +23,7 @@ const SchemaTypeForm = () => {
 
             {showIndexCheckbox && <IndexCheckbox handlePlusClick={handlePlusClick} />}
 
-            <div className="border border-gray-200 rounded-md w-[72.1vw] h-[206.5px] overflow-auto shadow-md">
+            <div className="border border-gray-200 rounded-md w-[72.5vw] h-[206.5px] overflow-auto shadow-md">
                 {isSchemaLoading ? (
                     <div className="flex items-center justify-center h-full">
                         <p className="text-lg font-semibold">Loading...</p>

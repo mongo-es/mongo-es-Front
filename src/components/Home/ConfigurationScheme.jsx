@@ -235,7 +235,7 @@ const ConfigurationSchemeForm = (PipeLine) => {
 
             <Box
                 className="border border-1 border-gray-400 shadow-lg overflow-auto"
-                width="35vw"
+                width="35.8vw"
                 height="60vh"
                 p={2}
                 borderRadius={4}
